@@ -15,12 +15,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "customWebpackConfig": {
-              "path": "./custom-webpack.config.js",
-              "replaceDuplicatePlugins": true
-            },
             "outputPath": "dist/file-portals-web",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -72,13 +68,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "file-portals-web:build:production"
+              "buildTarget": "file-portals-web:build:production"
             },
             "development": {
-              "browserTarget": "file-portals-web:build:development"
+              "buildTarget": "file-portals-web:build:development"
             }
           },
           "defaultConfiguration": "development"
