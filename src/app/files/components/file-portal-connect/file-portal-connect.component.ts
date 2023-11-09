@@ -15,6 +15,6 @@ export class FilePortalConnectComponent {
     public connect() {
         console.log('Domain: ', this.domain);
 
-        this.filePortalsService.connect(this.domain);
+        this.filePortalsService.connect(this.domain || 'test');
     }
 }

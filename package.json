@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^17.0.0",
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
-    "file-agents": "^1.7.6",
     "file-portals": "^1.5.0",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.7.2",

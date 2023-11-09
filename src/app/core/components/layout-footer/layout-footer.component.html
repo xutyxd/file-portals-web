@@ -1,1 +1,23 @@
-<p>layout-footer works!</p>
+
+<div class="footer-container">
+    <div class="footer-left-button">
+        <button mat-icon-button color="primary" (click)="navigate('home')">
+            <mat-icon svgIcon="home"></mat-icon>
+        </button>
+    </div>
+    <div class="footer-central-button">
+        <div class="footer-central-button-container">
+            <button mat-fab color="primary">
+                <mat-icon svgIcon="portal-lines-inverted"></mat-icon>
+            </button>
+        </div>
+        <span>
+            Portals
+        </span>
+    </div>
+    <div class="footer-right-button" (click)="navigate('settings')">
+        <button mat-icon-button>
+            <mat-icon>settings</mat-icon>
+        </button>
+    </div>
+</div>
