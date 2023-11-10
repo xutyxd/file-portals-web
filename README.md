@@ -1,27 +1,62 @@
-# FilePortalsWeb
+# File Portals Web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
+File Portals is an application designed to share files between different devices such as mobile phones, computers or servers.
+And always keeping in mind the philosophy of always free.
 
-## Development server
+## Resources to get all free
+- For peer connections: https://dashboard.metered.ca/
+    - Free: 50GB
+- For signaling server: https://render.com/
+    - Free 512NB RAM & 0.1 CPU
+    - Deployed a [Peer DNS](https://github.com/xutyxd/peer-dns) in some clicks
+- For hosting: https://firebase.google.com/
+    - Free 10GB of storage and 360MB/day
+- Fonts: https://fontesk.com/license/ofl-gpl/
+    - Open source fonts with free commercial use
+- Icons: https://www.flaticon.com/free-icon/
+    - Free icons sometimes need atributtion
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Add FireBase to deploy
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Install globally
+```
+npm install -g firebase-tools@12.8.1
+```
+Version at the moment of write this: 12.8.1
 
-## Build
+### Login to FireBase
+Make sure of run this command in the root of the project
+```
+firebase login
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Init FireBase
+```
+firebase init
+```
 
-## Running unit tests
+### Test before deploy
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+ng build
+```
 
-## Running end-to-end tests
+```
+firebase serve
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Manual Deploy
 
-## Further help
+```
+firebase deploy
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Get token to deploy from pipeline
+```
+firebase login:ci
+```
+Then use it to deploy
+```
+firebase deploy --token "$FIREBASE_TOKEN"
+```

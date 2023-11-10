@@ -20,6 +20,7 @@
             "outputPath": "dist/file-portals-web",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "externalDependencies": ["module"],
             "polyfills": [
               "zone.js"
             ],
