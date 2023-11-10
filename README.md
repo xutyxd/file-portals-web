@@ -7,7 +7,7 @@ And always keeping in mind the philosophy of always free.
 - For peer connections: https://dashboard.metered.ca/
     - Free: 50GB
 - For signaling server: https://render.com/
-    - Free 512NB RAM & 0.1 CPU
+    - Free 512MB RAM & 0.1 CPU
     - Deployed a [Peer DNS](https://github.com/xutyxd/peer-dns) in some clicks
 - For hosting: https://firebase.google.com/
     - Free 10GB of storage and 360MB/day

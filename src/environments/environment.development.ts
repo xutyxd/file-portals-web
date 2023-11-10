@@ -1,7 +1,7 @@
 export const environment = {
     peerDNS: {
-        domain: 'https://peer-dns.onrender.com',
-        port: '443'
+        domain: 'http://localhost:3000',
+        port: '3000'
     },
     RTCConfiguration: {
         iceServers: [
