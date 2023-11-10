@@ -12,8 +12,6 @@ export class DialogHeaderComponent {
 
     constructor() { }
 
-    ngOnInit(): void { }
-
     public close(): void {
         this.ref.close();
     }

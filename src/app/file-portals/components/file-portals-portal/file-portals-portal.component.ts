@@ -1,40 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, NgZone, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { FilePortalsService } from '../../services/file-portals.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+
+import { FilePortal } from 'file-portals';
+import { DialogService } from '../../../shared/services/dialog.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-file-portals-portal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule],
   templateUrl: './file-portals-portal.component.html',
-  styleUrl: './file-portals-portal.component.scss'
+  styleUrl: './file-portals-portal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilePortalsPortalComponent implements OnInit {
 
-    private domain?: string;
+    destroyRef = inject(DestroyRef);
+    
+    @Input() portal!: FilePortal;
 
-    constructor(private activatedRoute: ActivatedRoute,
-                private filePortalsService: FilePortalsService) {
-        console.log('ROuter: ', this.activatedRoute.snapshot);
-        const { id } = this.activatedRoute.snapshot.params;
-        this.domain = id;
-        console.log('Portal to open: ', id);
-
-        
-    }
+    constructor(private ngZone: NgZone,
+                private dialogService: DialogService) { }
 
     public async ngOnInit(): Promise<void> {
+        const destroyed = new Subject<void>();
+ 
+        this.destroyRef.onDestroy(() => {
+            destroyed.next();
+            destroyed.complete();
+        });
 
-        const { domain } = this;
+        this.portal.on.files.pipe(takeUntil(destroyed)).subscribe(({ resolve, reject }) => {
+            this.ngZone.run(async () => {
+                const title = 'Files requested';
+                const message = `User ${ this.portal.destination.name } has requested your files. Do you want to share them?`;
+                const response = await this.dialogService.alert(title, message, true);
 
-        if (!domain) {
-            console.log('Connection aborted, no domain!');
-            return;
+                const action = response ? resolve : reject;
+
+                action();
+              });
+        });
+
+        // setTimeout(async () => {
+        //     const title = 'Files requested';
+        //     const message = `User ${ this.portal.destination.name } has requested your files. Do you want to share them?`;
+        //     const response = await this.dialogService.alert(title, message, true);
+        //     console.log('Response: ', response);
+        // }, 5000);
+    }
+
+    public async files() {
+        try {
+            const files = await this.portal.files();
+            console.log('Files: ', files);
+        } catch(e) {
+            const message = `User ${ this.portal.destination.name } denied to share files`;
+            this.dialogService.alert('Error', message);
         }
+    }
 
-        const connection = await this.filePortalsService.connect(domain);
-        
-        console.log('Connection: ', connection);
+    public async close() {
+        await this.portal.shutdown();
     }
 }
+

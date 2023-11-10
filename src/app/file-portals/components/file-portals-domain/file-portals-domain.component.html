@@ -1,0 +1,18 @@
+
+@if(!connection) {
+    <div class="file-portal-loader">
+        <mat-progress-spinner
+            [color]="'accent'"
+            [mode]="'indeterminate'">
+        </mat-progress-spinner>
+        <span>Stablishing connection</span>
+    </div>
+} @else {
+    @for (connection of connection() | keyvalue; track $index) {
+        <app-file-portals-portal
+            [portal]="connection.value.portal">
+        </app-file-portals-portal>
+    } @empty {
+        There is still no one
+    }
+}

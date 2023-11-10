@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 import * as io from 'socket.io-client';
@@ -12,7 +12,9 @@ import { FilePeer, FilePortal } from 'file-portals';
 export class FilePortalsService {
 
     private connected: Promise<void>;
-    private domains: { [ domain: string ]: { [socketId: string]: { portal: FilePortal, peer: FilePeer } } } = { };
+    // private domains: { [ domain: string ]: { [socketId: string]: { portal: FilePortal, peer: FilePeer } } } = { };
+    // private domains = signal<{ [ domain: string ]: { [ socketId: string ]: { portal: FilePortal, peer: FilePeer } } }>({ });
+    private domains = signal<{ [ domain: string ]: WritableSignal<{ [ socketId: string ]: { portal: FilePortal, peer: FilePeer } }> }>({ });
     private reader = new WebReader();
     private writer = new WebWriter();
     private socket: io.Socket;
@@ -32,16 +34,25 @@ export class FilePortalsService {
 
     private domain = {
         create: (domain: string) => {
-            const connection = {  };
+            const connection = signal<{ [ socketId: string ]: { portal: FilePortal, peer: FilePeer } }>({ });
 
-            this.domains[domain] = connection;
+            this.domains.update((value) => {
+                value[domain] = connection;
+
+                return value;
+            })
+
             return connection;
         },
         get: (domain: string) => {
-            return this.domains[domain];
+            return this.domains()[domain];
         },
         remove: (domain: string) => {
-            delete this.domains[domain];
+            this.domains.update((value) => {
+                delete value[domain];
+
+                return value;
+            });
         }
     }
 
@@ -57,16 +68,25 @@ export class FilePortalsService {
                 connection = this.domain.create(domain);
             }
             // Save connection
-            connection[id] = { portal, peer };
-            // Handle disconnection of the portal
-            portal.on.close.subscribe(() => {
-                delete connection[id];
+            connection.update((value) => {
+                value[id] = { portal, peer };
+
+                return value;
             });
 
-            return connection[id];
+            // Handle disconnection of the portal
+            const subscription = portal.on.close.subscribe(() => {
+                connection.update((value) => {
+                    delete value[id];
+                    return value;
+                });
+                subscription.unsubscribe();
+            });
+
+            return connection()[id];
         },
         get: (domain: string, id: string) => {
-            let portal = this.domains[domain][id];
+            let portal = this.domains()[domain]()[id];
 
             if (!portal) {
                 portal = this.portal.create(domain, id);
@@ -83,6 +103,7 @@ export class FilePortalsService {
         let connection = this.domain.get(domain);
         
         if (connection) {
+            this.socket.emit('query', domain);
             return connection;
         }
 

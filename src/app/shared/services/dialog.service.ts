@@ -16,7 +16,7 @@ export class DialogService {
 
     public async alert(title: string, message?: string, ask = false): Promise<boolean> {
         const component = ask ? DialogBooleanComponent : DialogAlertComponent;
-        let result = await this.open(component, { data: { title, message }, closeOnNavigation: true, panelClass: [ 'tmotn' ],  });
+        let result = await this.open(component, { data: { title, message }, closeOnNavigation: true, panelClass: [ 'file-portal' ],  });
 
         if (result === undefined) {
             result = false;
@@ -26,7 +26,7 @@ export class DialogService {
     }
 
     public prompt(title: string, value?: string, fullScreen?: boolean): Promise<string> {
-        return this.open(DialogPromptComponent, { data: { title, value }, closeOnNavigation: true, panelClass: [ 'tmotn' ].concat( fullScreen ? 'full-screen-modal' : '' ) });
+        return this.open(DialogPromptComponent, { data: { title, value }, closeOnNavigation: true, panelClass: [ 'file-portal' ].concat( fullScreen ? 'full-screen-modal' : '' ) });
     }
 
     public fullScreen(component: ComponentType<any>, config: MatDialogConfig = {}) {
