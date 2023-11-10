@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilePortalConnectComponent } from './file-portal-connect.component';
+import { FilePortalConnectComponent } from './file-portals-connect.component';
 
 describe('FilePortalConnectComponent', () => {
   let component: FilePortalConnectComponent;

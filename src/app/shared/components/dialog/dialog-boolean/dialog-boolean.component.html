@@ -1,0 +1,12 @@
+
+<app-dialog-header [text]="title" [ref]="dialogRef"></app-dialog-header>
+<mat-dialog-content>
+    <p>
+        {{ message }}
+    </p>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-raised-button (click)="close()">Cancel</button>
+    <button mat-raised-button class="mat-primary" (click)="accept()">Accept</button>
+</mat-dialog-actions>

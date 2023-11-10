@@ -1,0 +1,23 @@
+
+header {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    height: 50px;
+    margin-bottom: 35px;
+    font-size: 25px;
+    position: relative;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    width: calc(100% - 40px);
+}
+
+header > span {
+    font-size: 1rem;
+}
+
+.close {
+    position: absolute;
+    right: -40px;
+}

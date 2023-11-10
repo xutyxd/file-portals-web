@@ -5,6 +5,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { LayoutCoreComponent } from './components/layout-core/layout-core.component';
 import { LayoutFooterComponent } from './components/layout-footer/layout-footer.component';
 import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MaterialModule } from '../material/material.module';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ]
 })
 export class CoreModule { }

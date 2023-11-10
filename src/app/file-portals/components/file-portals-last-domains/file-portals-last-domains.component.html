@@ -1,0 +1,21 @@
+
+
+<section class="last-domains-container">
+    <section class="last-domain-title">
+        <h3>
+            Last domain visited
+        </h3>
+    </section>
+    <section class="last-domains-contend">
+        @for (domain of domains; track domain) {
+            <span>
+                {{ domain }}
+            </span>
+        } @empty {
+            <span>
+                You have not yet connected to any domain. Try it!
+            </span>
+        }
+    </section>
+</section>
+

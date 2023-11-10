@@ -6,7 +6,7 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class AppStorageService {
 
-    private app = 'ce';
+    private app = 'file-portals';
 
     constructor(private localStorageService: LocalStorageService) { }
 

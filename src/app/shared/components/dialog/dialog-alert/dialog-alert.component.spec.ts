@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilesLayoutComponent } from './files-layout.component';
+import { DialogAlertComponent } from './dialog-alert.component';
 
-describe('FilesLayoutComponent', () => {
-  let component: FilesLayoutComponent;
-  let fixture: ComponentFixture<FilesLayoutComponent>;
+describe('DialogAlertComponent', () => {
+  let component: DialogAlertComponent;
+  let fixture: ComponentFixture<DialogAlertComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FilesLayoutComponent]
+      imports: [DialogAlertComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FilesLayoutComponent);
+    fixture = TestBed.createComponent(DialogAlertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -5,7 +5,7 @@ import { LayoutCoreComponent } from './components/layout-core/layout-core.compon
 const routes: Routes = [
     {
         path: '', component: LayoutCoreComponent, children: [
-            { path: '', loadChildren: () => import('../files/files.module').then(m => m.FilesModule) },
+            { path: '', loadChildren: () => import('../file-portals/file-portals.module').then(m => m.FilesModule) },
             { path: 'settings', loadChildren: () => import('../settings/settings.module').then(m => m.SettingsModule) }
         ]
     }
