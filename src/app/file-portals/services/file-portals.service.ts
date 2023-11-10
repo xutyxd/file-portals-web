@@ -6,20 +6,23 @@ import * as io from 'socket.io-client';
 import { WebReader, WebWriter } from 'file-portals';
 import { FilePeer, FilePortal } from 'file-portals';
 
+import { UserStorageService } from '../../shared/providers/user-storage.service';
+import { DomainStored } from '../types/domain-stored.type';
+import { DomainsService } from './domain.service';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class FilePortalsService {
 
     private connected: Promise<void>;
-    // private domains: { [ domain: string ]: { [socketId: string]: { portal: FilePortal, peer: FilePeer } } } = { };
-    // private domains = signal<{ [ domain: string ]: { [ socketId: string ]: { portal: FilePortal, peer: FilePeer } } }>({ });
     private domains = signal<{ [ domain: string ]: WritableSignal<{ [ socketId: string ]: { portal: FilePortal, peer: FilePeer } }> }>({ });
     private reader = new WebReader();
     private writer = new WebWriter();
     private socket: io.Socket;
 
-    constructor() {
+    constructor(private domainService: DomainsService) {
 
         const { peerDNS: { domain, port } } = environment;
 
@@ -32,88 +35,63 @@ export class FilePortalsService {
         });
     }
 
-    private domain = {
-        create: (domain: string) => {
-            const connection = signal<{ [ socketId: string ]: { portal: FilePortal, peer: FilePeer } }>({ });
+    private create(domain: string, id: string) {
+        const { RTCConfiguration } = environment;
+        const peer = new FilePeer(RTCConfiguration, 512);
+        const portal = new FilePortal(this.reader, this.writer, peer);
 
-            this.domains.update((value) => {
-                value[domain] = connection;
+        let connection = this.domainService.get.it(domain);
 
-                return value;
-            })
+        if (!connection) {
+            connection = this.domainService.create(domain);
+        }
+        // Save connection
+        connection.update((value) => {
+            value[id] = { portal, peer };
 
-            return connection;
-        },
-        get: (domain: string) => {
-            return this.domains()[domain];
-        },
-        remove: (domain: string) => {
-            this.domains.update((value) => {
-                delete value[domain];
+            return value;
+        });
 
+        // Handle disconnection of the portal
+        const subscription = portal.on.close.subscribe(() => {
+            connection.update((value) => {
+                delete value[id];
                 return value;
             });
-        }
+            subscription.unsubscribe();
+        });
+
+        return connection()[id];
     }
 
-    private portal = {
-        create: (domain: string, id: string) => {
-            const { RTCConfiguration } = environment;
-            const peer = new FilePeer(RTCConfiguration, 512);
-            const portal = new FilePortal(this.reader, this.writer, peer);
+    private get(domain: string, id: string) {
+        let portal = this.domains()[domain]()[id];
 
-            let connection = this.domain.get(domain);
-
-            if (!connection) {
-                connection = this.domain.create(domain);
-            }
-            // Save connection
-            connection.update((value) => {
-                value[id] = { portal, peer };
-
-                return value;
-            });
-
-            // Handle disconnection of the portal
-            const subscription = portal.on.close.subscribe(() => {
-                connection.update((value) => {
-                    delete value[id];
-                    return value;
-                });
-                subscription.unsubscribe();
-            });
-
-            return connection()[id];
-        },
-        get: (domain: string, id: string) => {
-            let portal = this.domains()[domain]()[id];
-
-            if (!portal) {
-                portal = this.portal.create(domain, id);
-            }
-
-            return portal;
+        if (!portal) {
+            portal = this.create(domain, id);
         }
+
+        return portal;
     }
 
     public async connect(domain: string) {
         // Wait socket to be connected
         await this.connected;
         // Check if user is listening on domain
-        let connection = this.domain.get(domain);
+        let connection = this.domainService.get.it(domain);
         
         if (connection) {
             this.socket.emit('query', domain);
             return connection;
         }
 
-        connection = this.domain.create(domain);
+        connection = this.domainService.create(domain);
         // Start listening for new connections on domain
         this.socket.on('link', async (link: { id: string, offer?: RTCSessionDescription }) => {
             // New offer from domain
             const { id, offer } = link;
             // Create new portal to connect with it
-            const { peer } = this.portal.get(domain, id);
+            const { peer } = this.get(domain, id);
             // console.log('Connecting with: ', id);
             console.log(`Connection with ${id} with offer of type ${offer?.type}`);
             const response = await peer.connect(offer);
@@ -133,7 +111,7 @@ export class FilePortalsService {
         this.socket.on('candidates', (connection: { id: string, candidates: RTCIceCandidate[] }) => {
             const { id, candidates } = connection;
 
-            const { peer } = this.portal.get(domain, id);
+            const { peer } = this.get(domain, id);
             peer.candidates.import(candidates);
             // Import candidates
             console.log(`Candidates from ${ id }: ${ candidates.map(({ candidate }) => candidate).join(', ') }`);
@@ -148,7 +126,5 @@ export class FilePortalsService {
     public close(domain: string) {
         // Stop listening for new connections on domain
         this.socket.emit('exit', domain);
-        // Delete from object
-        this.domain.remove(domain);
     }
 }
