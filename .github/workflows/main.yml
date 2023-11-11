@@ -32,18 +32,11 @@ jobs:
           npm i -g firebase-tools
         id: cache-deps
 
-      - name: Build
-        run: |
-          npm run build
-        id: cache-build
-
       - name: Release
         run: |
           npx semantic-release
-          version=$(npx semantic-release --version)
-          npm version $version
+          npm run build
           firebase deploy --token $FIREBASE_TOKEN
-          npx semantic-release --version
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }} # Token for generate tags on the repo
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }} # Token for publish on npmjs.com
