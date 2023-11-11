@@ -60,3 +60,11 @@ Then use it to deploy
 ```
 firebase deploy --token "$FIREBASE_TOKEN"
 ```
+
+## Convert to PWA
+
+### Add Angular PWA package
+
+```
+ng add @angular/pwa
+```
