@@ -40,7 +40,7 @@ jobs:
       - name: Release
         run: |
           npx semantic-release
-          firebase deploy --token
+          firebase deploy --token $FIREBASE_TOKEN
           npx semantic-release --version
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }} # Token for generate tags on the repo
