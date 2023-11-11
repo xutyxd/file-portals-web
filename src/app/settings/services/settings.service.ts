@@ -58,24 +58,22 @@ export class SettingsService {
     }
 
     private checkVersion() {
-        if (this.swUptade.versionUpdates) {
-            this.swUptade.versionUpdates.subscribe(async () => {
+        this.swUptade.versionUpdates.subscribe(async () => {
 
-                const { updateable: denied } = this.settings;
-                if (denied === false) {
-                    return;
-                }
+            const { updateable: denied } = this.settings;
+            if (denied === false) {
+                return;
+            }
 
-                const update = await this.dialogService.alert('There is a new version', 'Accept to update to new version', true);
-                console.log('update:', update);
-                if (update) {
-                    window.location.reload();
-                    return;
-                }
+            const update = await this.dialogService.alert('There is a new version', 'Accept to update to new version', true);
+            console.log('update:', update);
+            if (update) {
+                window.location.reload();
+                return;
+            }
 
-                this.update('updateable', true);
-            });
-        }
+            this.update('updateable', true);
+        });
     }
 
     public get updateable() {
