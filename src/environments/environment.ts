@@ -1,3 +1,5 @@
+import { version } from '../../package.json';
+
 export const environment = {
     peerDNS: {
         domain: 'https://peer-dns.onrender.com',
@@ -30,5 +32,6 @@ export const environment = {
             },
         ],
         iceCandidatePoolSize: 10
-    }
+    },
+    version
 };

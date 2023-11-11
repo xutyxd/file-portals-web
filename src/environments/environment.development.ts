@@ -1,3 +1,5 @@
+import { version } from '../../package.json';
+
 export const environment = {
     peerDNS: {
         domain: 'http://localhost:3000',
@@ -30,5 +32,6 @@ export const environment = {
             },
         ],
         iceCandidatePoolSize: 10
-    }
+    },
+    version
 };
