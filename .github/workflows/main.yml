@@ -40,6 +40,8 @@ jobs:
       - name: Release
         run: |
           npx semantic-release
+          version=$(npx semantic-release --version)
+          npm version $version
           firebase deploy --token $FIREBASE_TOKEN
           npx semantic-release --version
         env:
