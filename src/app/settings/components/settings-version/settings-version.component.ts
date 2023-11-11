@@ -19,6 +19,7 @@ export class SettingsVersionComponent {
 
     constructor(private settingsService: SettingsService) {
         this.can = settingsService.can;
+        this.version = settingsService.version;
     }
 
     public install() {
