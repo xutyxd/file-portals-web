@@ -1,5 +1,5 @@
 
-export type DomainStored = {
+export interface IDomainStored {
     name: string,
     date: number
 }

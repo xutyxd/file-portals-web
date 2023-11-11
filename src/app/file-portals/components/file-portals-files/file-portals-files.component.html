@@ -1,0 +1,22 @@
+<mat-list>
+    @for (file of files; track $index) {
+        <mat-list-item>
+            <mat-icon matListItemIcon>note</mat-icon>
+            <div matListItemTitle>
+                {{file.name}}
+                <div class="file-menu" [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </div>
+            </div>
+            <div matListItemLine>{{file.lastModified | date}}</div>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="download(file)">Download</button>
+            </mat-menu>
+        </mat-list-item>
+        
+      } @empty {
+        <mat-list-item>
+            They haven't shared files yet, try asking them for them
+        </mat-list-item>
+      }
+    </mat-list>

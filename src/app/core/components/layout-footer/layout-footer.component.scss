@@ -32,6 +32,8 @@
     align-items: center;
     margin-top: calc(0px - var(--footer-margin-top));
     z-index: 1;
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
 }
 
 .footer-central-button-container {

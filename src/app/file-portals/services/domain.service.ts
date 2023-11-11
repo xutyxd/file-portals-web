@@ -1,7 +1,7 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { FilePortal, FilePeer } from 'file-portals';
 import { UserStorageService } from '../../shared/providers/user-storage.service';
-import { DomainStored } from '../types/domain-stored.type';
+import { IDomainStored } from '../types/domain-stored.type';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class DomainsService {
     private domains = signal<{ [ domain: string ]: WritableSignal<{ [ socketId: string ]: { portal: FilePortal, peer: FilePeer } }> }>({ });
     
     constructor(private userStorageService: UserStorageService) {
-        const domains = userStorageService.get<DomainStored[]>('domains') || [];
+        const domains = userStorageService.get<IDomainStored[]>('domains') || [];
         domains.forEach(({ name }) => {
             this.domains.update((value) => {
                 value[name] = signal({ });
@@ -30,7 +30,7 @@ export class DomainsService {
             return value;
         });
 
-        const domains = this.userStorageService.get<DomainStored[]>('domains') || [ ];
+        const domains = this.userStorageService.get<IDomainStored[]>('domains') || [ ];
         domains.push({ name: domain, date: Date.now() });
         this.userStorageService.set('domains', domains);
 
@@ -42,7 +42,7 @@ export class DomainsService {
             return this.domains()[domain];
         },
         all: () => {
-            return this.userStorageService.get<DomainStored[]>('domains') || [];
+            return this.userStorageService.get<IDomainStored[]>('domains') || [];
         }
     }
 

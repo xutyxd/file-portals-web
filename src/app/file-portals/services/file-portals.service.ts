@@ -84,15 +84,12 @@ export class FilePortalsService {
             connection = this.domainService.create(domain);
         }
 
-        console.log('Connection: ', connection());
         // Start listening for new connections on domain
         this.socket.on('link', async (link: { id: string, offer?: RTCSessionDescription }) => {
             // New offer from domain
             const { id, offer } = link;
             // Create new portal to connect with it
             const { peer } = this.get(domain, id);
-            // console.log('Connecting with: ', id);
-            console.log(`Connection with ${id} with offer of type ${offer?.type}`);
             const response = await peer.connect(offer);
 
             if (response) {
@@ -103,7 +100,6 @@ export class FilePortalsService {
             if (offer?.type === 'answer' || response?.type === 'answer') {
                 const candidates = await peer.candidates.export();
                 this.socket.emit('candidates', { id, candidates });
-                console.log('Emitting candidates...');
             }
         });
 
@@ -112,9 +108,6 @@ export class FilePortalsService {
 
             const { peer } = this.get(domain, id);
             peer.candidates.import(candidates);
-            // Import candidates
-            console.log(`Candidates from ${ id }: ${ candidates.map(({ candidate }) => candidate).join(', ') }`);
-            console.log('Candidates imported!');
         });
 
         this.socket.emit('query', domain);

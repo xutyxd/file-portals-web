@@ -1,7 +1,7 @@
 
 .layout-content {
-    height: calc(100% - var(--footer-height) - var(--footer-margin-top));
-    padding-bottom: var(--footer-margin-top);
+    height: calc(100% - var(--footer-height) - 4px);
+    padding-bottom: 4px;
 }
 
 .layout-footer {
