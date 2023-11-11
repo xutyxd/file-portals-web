@@ -6,6 +6,7 @@ import { LayoutCoreComponent } from './components/layout-core/layout-core.compon
 import { LayoutFooterComponent } from './components/layout-footer/layout-footer.component';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { SettingsService } from '../settings/services/settings.service';
 
 
 @NgModule({
@@ -18,6 +19,13 @@ import { SharedModule } from '../shared/shared.module';
     CoreRoutingModule,
     MaterialModule,
     SharedModule
+  ],
+  providers: [
+    SettingsService
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+    constructor(settingsService: SettingsService) {
+        console.log('Current version: ', settingsService.version);
+    }
+}

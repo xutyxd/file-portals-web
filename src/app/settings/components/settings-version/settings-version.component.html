@@ -1,0 +1,38 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon matListItemIcon>
+            @if(updateable) {
+                system_update
+            } @else {
+                security_update_good
+            }
+        </mat-icon>
+        <span>
+            App update
+        </span>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            Current version installed: {{ version }}
+        </p>
+    </mat-card-content>
+
+    @if(installable || updateable) {
+        <mat-card-actions align="end">
+            <button mat-button (click)="install()">
+                <mat-icon>
+                    install_mobile
+                </mat-icon>
+                Install
+            </button>
+            <button mat-button (click)="update()">
+                <mat-icon>
+                    system_update
+                </mat-icon>
+                Update
+            </button>
+        </mat-card-actions>
+    }
+</mat-card>
