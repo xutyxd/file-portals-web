@@ -14,13 +14,11 @@ import { SettingsService } from '../../services/settings.service';
 })
 export class SettingsVersionComponent {
 
-    public installable?: boolean = false;
-    public updateable?: boolean = false;
+    public can;
     public version = '0.0.0';
 
     constructor(private settingsService: SettingsService) {
-        this.updateable = settingsService.updateable;
-        this.version = settingsService.version;
+        this.can = settingsService.can;
     }
 
     public install() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 
 import { environment } from '../../../environments/environment';
@@ -16,10 +16,7 @@ export class SettingsService {
     private darkMode: boolean;
     private installEvent?: WindowEventMap['beforeinstallprompt'];
 
-    public can = {
-        install: false,
-        update: false
-    }
+    public can = signal<{ install: boolean, update: boolean }>({ install: false, update: false });
 
     constructor(private readonly swUptade: SwUpdate,
                 private dialogService: DialogService,
@@ -30,11 +27,18 @@ export class SettingsService {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
             this.installEvent = event;
-            this.can.install = true;
+
+            this.can.update((value) => {
+                value.install = true;
+                return value;
+            });
         });
 
-        window.addEventListener("appinstalled", t=>{
-            
+        window.addEventListener("appinstalled", () =>{
+            this.can.update((value) => {
+                value.install = false;
+                return value;
+            });
         });
 
         console.log('Settings constructor...');
@@ -105,7 +109,8 @@ export class SettingsService {
 
     public app = {
         install: async () => {
-            if (!this.can.install || !this.installEvent) {
+            const { install } = this.can();
+            if (!install || !this.installEvent) {
                 return;
             }
 

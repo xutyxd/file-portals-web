@@ -2,7 +2,7 @@
     <mat-card-header>
       <mat-card-title>
         <mat-icon matListItemIcon>
-            @if(updateable) {
+            @if(can().update) {
                 system_update
             } @else {
                 security_update_good
@@ -19,20 +19,24 @@
         </p>
     </mat-card-content>
 
-    @if(installable || updateable) {
+    @if(can().install || can().update) {
         <mat-card-actions align="end">
-            <button mat-button (click)="install()">
-                <mat-icon>
-                    install_mobile
-                </mat-icon>
-                Install
-            </button>
-            <button mat-button (click)="update()">
-                <mat-icon>
-                    system_update
-                </mat-icon>
-                Update
-            </button>
+            @if(can().install) {
+                <button mat-button (click)="install()">
+                    <mat-icon>
+                        install_mobile
+                    </mat-icon>
+                    Install
+                </button>
+            }
+            @if(can().update) {
+                <button mat-button (click)="update()">
+                    <mat-icon>
+                        system_update
+                    </mat-icon>
+                    Update
+                </button>
+            }
         </mat-card-actions>
     }
 </mat-card>
