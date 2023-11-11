@@ -1,13 +1,10 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 import * as io from 'socket.io-client';
 
 import { WebReader, WebWriter } from 'file-portals';
 import { FilePeer, FilePortal } from 'file-portals';
-
-import { UserStorageService } from '../../shared/providers/user-storage.service';
-import { DomainStored } from '../types/domain-stored.type';
 import { DomainsService } from './domain.service';
 
 
@@ -17,7 +14,6 @@ import { DomainsService } from './domain.service';
 export class FilePortalsService {
 
     private connected: Promise<void>;
-    private domains = signal<{ [ domain: string ]: WritableSignal<{ [ socketId: string ]: { portal: FilePortal, peer: FilePeer } }> }>({ });
     private reader = new WebReader();
     private writer = new WebWriter();
     private socket: io.Socket;
@@ -65,7 +61,7 @@ export class FilePortalsService {
     }
 
     private get(domain: string, id: string) {
-        let portal = this.domains()[domain]()[id];
+        let portal = this.domainService.get.it(domain)()[id];
 
         if (!portal) {
             portal = this.create(domain, id);
@@ -80,12 +76,12 @@ export class FilePortalsService {
         // Check if user is listening on domain
         let connection = this.domainService.get.it(domain);
         
-        if (connection) {
-            this.socket.emit('query', domain);
-            return connection;
+        if (!connection) {
+            
+            connection = this.domainService.create(domain);
         }
 
-        connection = this.domainService.create(domain);
+        console.log('Connection: ', connection());
         // Start listening for new connections on domain
         this.socket.on('link', async (link: { id: string, offer?: RTCSessionDescription }) => {
             // New offer from domain
