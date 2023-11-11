@@ -27,7 +27,7 @@ export class SettingsService {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
             this.installEvent = event;
-
+            console.log('Can install!');
             this.can.update((value) => {
                 value.install = true;
                 return value;
@@ -57,8 +57,14 @@ export class SettingsService {
         this.appStorageService.set(this.property, settings);
     }
 
-    private checkVersion() {
-        this.swUptade.versionUpdates.subscribe(async () => {
+    private async checkVersion() {
+
+        await this.app.check();
+
+        this.swUptade.versionUpdates.subscribe(async (event) => {
+            if (event.type === 'NO_NEW_VERSION_DETECTED') {
+                return;
+            }
 
             const { updateable: denied } = this.settings;
             if (denied === false) {
@@ -68,11 +74,11 @@ export class SettingsService {
             const update = await this.dialogService.alert('There is a new version', 'Accept to update to new version', true);
             console.log('update:', update);
             if (update) {
-                window.location.reload();
+                this.app.update();
                 return;
             }
 
-            this.update('updateable', true);
+            this.update('updateable', update);
         });
     }
 
@@ -106,6 +112,21 @@ export class SettingsService {
     }
 
     public app = {
+        check: async () => {
+            let updateable = false;
+            try {
+                updateable = await this.swUptade.checkForUpdate();
+    
+                this.can.update((value) => {
+                    value.update = updateable;
+                    return value;
+                });
+            } catch {
+                console.log('Error checking for update...');
+            }
+
+            return updateable;
+        },
         install: async () => {
             const { install } = this.can();
             if (!install || !this.installEvent) {
@@ -115,7 +136,6 @@ export class SettingsService {
             await this.installEvent.prompt();
         },
         update: () => {
-            this.update('updateable', false);
             window.location.reload();
         }
     }

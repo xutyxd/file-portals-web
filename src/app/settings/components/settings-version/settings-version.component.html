@@ -18,25 +18,28 @@
             Current version installed: {{ version }}
         </p>
     </mat-card-content>
-
-    @if(can().install || can().update) {
-        <mat-card-actions align="end">
-            @if(can().install) {
-                <button mat-button (click)="install()">
-                    <mat-icon>
-                        install_mobile
-                    </mat-icon>
-                    Install
-                </button>
-            }
-            @if(can().update) {
-                <button mat-button (click)="update()">
-                    <mat-icon>
-                        system_update
-                    </mat-icon>
-                    Update
-                </button>
-            }
-        </mat-card-actions>
-    }
+    <mat-card-actions align="end">
+        @if(can().install) {
+            <button mat-button (click)="install()" [disabled]="disabled().install || null">
+                <mat-icon>
+                    install_mobile
+                </mat-icon>
+                Install
+            </button>
+        }
+        @if(can().update) {
+            <button mat-button (click)="update()" [disabled]="disabled().update || null">
+                <mat-icon>
+                    system_update
+                </mat-icon>
+                Update
+            </button>
+        }
+        <button mat-button (click)="check()" [disabled]="disabled().check || null">
+            <mat-icon>
+                sync
+            </mat-icon>
+            Check for update
+        </button>
+    </mat-card-actions>
 </mat-card>

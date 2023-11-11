@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 import * as io from 'socket.io-client';
@@ -18,7 +18,8 @@ export class FilePortalsService {
     private writer = new WebWriter();
     private socket: io.Socket;
 
-    constructor(private domainService: DomainsService) {
+    constructor(private ngZone: NgZone,
+                private domainService: DomainsService) {
 
         const { peerDNS: { domain, port } } = environment;
 
@@ -50,11 +51,13 @@ export class FilePortalsService {
 
         // Handle disconnection of the portal
         const subscription = portal.on.close.subscribe(() => {
-            connection.update((value) => {
-                delete value[id];
-                return value;
+            this.ngZone.run(async () => {
+                connection.update((value) => {
+                    delete value[id];
+                    return value;
+                });
+                subscription.unsubscribe();
             });
-            subscription.unsubscribe();
         });
 
         return connection()[id];
