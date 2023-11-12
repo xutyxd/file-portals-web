@@ -86,6 +86,7 @@ export class FilePortalsService {
 
         // Start listening for new connections on domain
         this.socket.on('link', async (link: { id: string, offer?: RTCSessionDescription }) => {
+            console.log('New connection: ', link);
             // New offer from domain
             const { id, offer } = link;
             // Create new portal to connect with it
@@ -94,6 +95,7 @@ export class FilePortalsService {
 
             if (response) {
                 // Emit response
+                console.log('Emitting link: ', { id, offer: response });
                 this.socket.emit('link', { id, offer: response });
             }
             // Check if there is an answer or response is type answer to emit candidates
@@ -105,12 +107,13 @@ export class FilePortalsService {
         });
 
         this.socket.on('candidates', async (connection: { id: string, candidates: RTCIceCandidate[] }) => {
+            console.log('Importing candidates: ', connection);
             const { id, candidates } = connection;
 
             const { peer } = this.get(domain, id);
             peer.candidates.import(candidates);
         });
-
+        console.log('Querying in: ', domain);
         this.socket.emit('query', domain);
 
         return connection;
