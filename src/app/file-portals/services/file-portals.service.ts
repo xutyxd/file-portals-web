@@ -34,7 +34,7 @@ export class FilePortalsService {
 
     private create(domain: string, id: string) {
         const { RTCConfiguration } = environment;
-        const peer = new FilePeer(RTCConfiguration);
+        const peer = new FilePeer(RTCConfiguration, 512);
         const portal = new FilePortal(this.reader, this.writer, peer);
 
         let connection = this.domainService.get.it(domain);

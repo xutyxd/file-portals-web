@@ -36,7 +36,7 @@ export class FileSystemService {
             // Set end of chunk
             let end = start + size;
             // Check end is not larger than file size
-            if (end > size) {
+            if (end > file.size) {
                 end = size;
             }
             // Return a promise reading from portal
@@ -47,7 +47,6 @@ export class FileSystemService {
                 await this.writer.write(writable, blob, start);
                 // Sum size of blob to download generated
                 download.transferred += blob.size;
-                console.log('Transferred: ', download.transferred);
                 // Resolve promise
                 resolve();
             });
@@ -55,7 +54,8 @@ export class FileSystemService {
         // Wait until all promises have been resolved
         await Promise.all(promises);
         // Update ended time of download
-        download.ended = Date.now();
+        download.ended = Date.now() - download.started;
+        console.log('Ended in: ', download.ended / 1000);
         // Close writable, we finished download
         await this.writer.close(writable);
     }
