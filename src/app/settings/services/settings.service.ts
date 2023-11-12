@@ -82,6 +82,10 @@ export class SettingsService {
         });
     }
 
+    public get version() {
+        return this.settings.version as string;
+    }
+
     public get dark() {
 
         let dark: boolean | undefined = this.darkMode;
