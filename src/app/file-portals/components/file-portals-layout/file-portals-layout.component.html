@@ -5,7 +5,9 @@
             <app-file-portals-last-domains></app-file-portals-last-domains>
         }        
     </section>
-    <section class="file-portals-navigation mat-app-background" ngClass="{ 'navigated': navigated }">
-        <router-outlet></router-outlet>
-    </section>
+    @if(navigated) {
+        <section class="file-portals-navigation mat-app-background">
+            <router-outlet></router-outlet>
+        </section>
+    }
 </section>

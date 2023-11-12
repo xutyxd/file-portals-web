@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, EventType, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { EventType, Router } from '@angular/router';
 
 @Component({
   selector: 'app-file-portals-layout',
@@ -12,7 +12,10 @@ export class FilePortalsLayoutComponent implements OnInit {
     public navigated = false;
 
     constructor(private router: Router) {
-        this.navigated = this.paths.includes(router.url);
+        this.navigated = this.check(router.url);
+    }
+    private check(url: string) {
+        return this.paths.some((path) => url.includes(path));
     }
 
     public ngOnInit(): void {
@@ -21,7 +24,7 @@ export class FilePortalsLayoutComponent implements OnInit {
                 return;
             }
 
-            this.navigated = this.paths.includes(event.urlAfterRedirects);
+            this.navigated = this.check(event.urlAfterRedirects);
         });
     }
 }
