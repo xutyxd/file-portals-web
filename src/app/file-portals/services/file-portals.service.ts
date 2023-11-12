@@ -103,6 +103,11 @@ export class FilePortalsService {
                 const candidates = await peer.candidates.export();
                 console.log('Emitting candidates: ', { id, candidates });
                 this.socket.emit('candidates', { id, candidates });
+
+                peer.on.candidate.subscribe((candidate) => {
+                    console.log('Emitting on.candidates: ', { id, candidates });
+                    this.socket.emit('candidates', { id, candidates: [ candidate ] });
+                });
             }
         });
 
