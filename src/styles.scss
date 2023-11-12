@@ -5,6 +5,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
     height: 100dvh;
+    overflow-y: overlay;
+    overscroll-behavior-y: contain;
 }
 /* Variables */
 :root {
