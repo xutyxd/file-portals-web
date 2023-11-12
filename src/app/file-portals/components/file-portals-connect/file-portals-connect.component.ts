@@ -13,8 +13,6 @@ export class FilePortalsConnectComponent {
     constructor(private filePortalsService: FilePortalsService) { }
 
     public connect() {
-        console.log('Domain: ', this.domain);
-
         this.filePortalsService.connect(this.domain || 'test');
     }
 }

@@ -1,0 +1,12 @@
+
+
+<div class="new-user-container" [formGroup]="userForm">
+
+    <form>
+        <mat-form-field >
+            <mat-label>Nickname</mat-label>
+            <input matInput placeholder="Ex. John Doe" formControlName="nickname">
+        </mat-form-field>
+        <button mat-flat-button color="accent" [disabled]="userForm.valid ? null : true" (click)="save()">Start</button>
+    </form>
+</div>

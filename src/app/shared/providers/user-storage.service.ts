@@ -7,56 +7,76 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root'
 })
 export class UserStorageService {
-    private Nickname: string;
+    
+    private uuid?: string;
     private User?: IUser;
 
-    public get nickname(): string {
-        return this.Nickname;
-    }
+    constructor(private localStorageService: LocalStorageService,
+                private appStorageService: AppStorageService) {
+        // Check if exist last user of app
+        const uuid = appStorageService.get<string>('lastUser');
 
-    public set nickname(nickname: string) {
-        // Set nickname
-        this.Nickname = nickname;
-        // Get data of user
-        const user = this.localStorageService.get<IUser>('user', nickname);
-        // Set the data of user if its saved
-        if (!user) {
+        if (!uuid) {
             return;
         }
-        // Set user
-        this.user = user;
+
+        this.uuid = uuid;
+        // Get user in that case
+        this.User = localStorageService.get<IUser>('user', uuid);
     }
 
-    public get user(): any {
-        return this.User;
-    }
-
-    public set user(user: any) {
-        this.User = user;
-        // this.set('user', user);
-    }
-
-    constructor(private localStorageService: LocalStorageService,
-                appStorageService: AppStorageService) {
-        this.Nickname = appStorageService.get('lastUser');
-
-        if (!this.Nickname) {
-            this.Nickname = crypto.randomUUID();
-            appStorageService.set('lastUser', this.Nickname);
-            const users = appStorageService.get<string[]>('users') || [];
-            appStorageService.set('users', users.concat(this.Nickname));
+    public user = {
+        create: (nickname: string) => {
+            // Create an uuid
+            const uuid = crypto.randomUUID();
+            // Create user object
+            const user: IUser = { uuid, nickname };
+            // Set nickname to allow set user
+            this.uuid = uuid;
+            // Save user
+            this.set('user', user);
+            // Save on memory
+            this.User = user;
+            // Save to users
+            const users = this.appStorageService.get<string[]>('users') || [];
+            users.push(uuid);
+            this.appStorageService.set('users', users);
+            // Change user to last one
+            this.user.change(uuid);
+        },
+        get: () => {
+            return { ...this.User } as IUser;
+        },
+        logged: () => {
+            return !!this.uuid;
+        },
+        change: (uuid: string) => {
+            this.uuid = uuid;
+            this.appStorageService.set('lastUser', uuid);
         }
     }
 
     public get<T>(name: string): T{
-        return this.localStorageService.get(name, this.nickname);
+        if (!this.uuid) {
+            throw new Error('User not logged');
+        }
+
+        return this.localStorageService.get(name, this.uuid);
     }
 
     public set(name: string, data: any): void {
-        return this.localStorageService.set(name, data, this.nickname);
+        if (!this.uuid) {
+            throw new Error('User not logged');
+        }
+
+        return this.localStorageService.set(name, data, this.uuid);
     }
 
     public remove = (name: string) => {
-        return this.localStorageService.remove(name, this.nickname);
+        if (!this.uuid) {
+            throw new Error('User not logged');
+        }
+
+        return this.localStorageService.remove(name, this.uuid);
     }
 }

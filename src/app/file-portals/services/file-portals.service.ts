@@ -6,6 +6,8 @@ import * as io from 'socket.io-client';
 import { WebReader, WebWriter } from 'file-portals';
 import { FilePeer, FilePortal } from 'file-portals';
 import { DomainsService } from './domain.service';
+import { UserStorageService } from '../../shared/providers/user-storage.service';
+import { IUser } from '../../shared/interfaces/user.interface';
 
 
 @Injectable({
@@ -17,8 +19,10 @@ export class FilePortalsService {
     private reader = new WebReader();
     private writer = new WebWriter();
     private socket: io.Socket;
+    private user: IUser;
 
     constructor(private ngZone: NgZone,
+                userStorageService: UserStorageService,
                 private domainService: DomainsService) {
 
         const { peerDNS: { domain, port } } = environment;
@@ -30,12 +34,15 @@ export class FilePortalsService {
                 resolve();
             });
         });
+
+        this.user = userStorageService.user.get();
+        console.log('User getted: ', this.user);
     }
 
     private create(domain: string, id: string) {
         const { RTCConfiguration } = environment;
         const peer = new FilePeer(RTCConfiguration, 512);
-        const portal = new FilePortal(this.reader, this.writer, peer);
+        const portal = new FilePortal(this.reader, this.writer, peer, { name: this.user.nickname, type: 'client' });
 
         let connection = this.domainService.get.it(domain);
 

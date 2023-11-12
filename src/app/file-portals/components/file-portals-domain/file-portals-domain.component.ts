@@ -24,12 +24,8 @@ export class FilePortalsDomainComponent {
 
     constructor(private activatedRoute: ActivatedRoute,
                 private filePortalsService: FilePortalsService) {
-        console.log('ROuter: ', this.activatedRoute.snapshot);
         const { id } = this.activatedRoute.snapshot.params;
         this.domain = id;
-        console.log('Portal to open: ', id);
-
-        
     }
 
     public async ngOnInit(): Promise<void> {
@@ -37,7 +33,6 @@ export class FilePortalsDomainComponent {
         const { domain } = this;
 
         if (!domain) {
-            console.log('Connection aborted, no domain!');
             return;
         }
         const end = Date.now();
@@ -45,6 +40,6 @@ export class FilePortalsDomainComponent {
 
         this.connection = await this.filePortalsService.connect(domain);
         
-        console.log('Connection: ', this.connection);
+        console.log('Connection: ', this.connection());
     }
 }

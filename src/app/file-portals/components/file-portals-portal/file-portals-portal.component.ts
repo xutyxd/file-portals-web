@@ -77,9 +77,6 @@ export class FilePortalsPortalComponent implements OnInit {
                         return value;
                     });
                 });
-                
-
-                console.log('Files: ', this.files());
             } catch(e) {
                 const message = `User ${ this.portal.destination.name } denied to share files`;
                 this.dialogService.alert('Error', message);

@@ -23,7 +23,6 @@ export class LayoutFooterComponent {
 
     public async open() {
         const portal = await this.dialogService.prompt('Where do you want to connect?');
-        console.log('Portal: ', portal);
 
         if (!portal) {
             return;

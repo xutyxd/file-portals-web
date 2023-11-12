@@ -27,7 +27,7 @@ export class SettingsService {
         window.addEventListener('beforeinstallprompt', (event) => {
             event.preventDefault();
             this.installEvent = event;
-            console.log('Can install!');
+
             this.can.update((value) => {
                 value.install = true;
                 return value;
@@ -40,8 +40,6 @@ export class SettingsService {
                 return value;
             });
         });
-
-        console.log('Settings constructor...');
         
         this.update('version', environment.version);
     }
@@ -72,7 +70,7 @@ export class SettingsService {
             }
 
             const update = await this.dialogService.alert('There is a new version', 'Accept to update to new version', true);
-            console.log('update:', update);
+
             if (update) {
                 this.app.update();
                 return;
