@@ -74,6 +74,7 @@ export class FilePortalsService {
     }
 
     public async connect(domain: string) {
+        let emitted = false;
         // Wait socket to be connected
         await this.connected;
         // Check if user is listening on domain
@@ -100,14 +101,20 @@ export class FilePortalsService {
             if (offer?.type === 'answer' || response?.type === 'answer') {
                 const candidates = await peer.candidates.export();
                 this.socket.emit('candidates', { id, candidates });
+                emitted = true;
             }
         });
 
-        this.socket.on('candidates', (connection: { id: string, candidates: RTCIceCandidate[] }) => {
+        this.socket.on('candidates', async (connection: { id: string, candidates: RTCIceCandidate[] }) => {
             const { id, candidates } = connection;
 
             const { peer } = this.get(domain, id);
             peer.candidates.import(candidates);
+
+            if (!emitted) {
+                const candidates = await peer.candidates.export();
+                this.socket.emit('candidates', { id, candidates });
+            }
         });
 
         this.socket.emit('query', domain);
