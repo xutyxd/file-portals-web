@@ -8,6 +8,7 @@ import { FilePeer, FilePortal } from 'file-portals';
 import { DomainsService } from './domain.service';
 import { UserStorageService } from '../../shared/providers/user-storage.service';
 import { IUser } from '../../shared/interfaces/user.interface';
+import { IConnection } from '../types/connection.type';
 
 
 @Injectable({
@@ -36,7 +37,6 @@ export class FilePortalsService {
         });
 
         this.user = userStorageService.user.get();
-        console.log('User getted: ', this.user);
     }
 
     private create(domain: string, id: string) {
@@ -44,40 +44,48 @@ export class FilePortalsService {
         const peer = new FilePeer(RTCConfiguration, 512);
         const portal = new FilePortal(this.reader, this.writer, peer, { name: this.user.nickname, type: 'client' });
 
-        let connection = this.domainService.get.it(domain);
+        let connections = this.domainService.get.it(domain);
 
-        if (!connection) {
-            connection = this.domainService.create(domain);
+        if (!connections) {
+            connections = this.domainService.create(domain);
         }
-        // Save connection
-        connection.update((value) => {
-            value[id] = { portal, peer };
-
-            return value;
-        });
-
+        const connection = { id, portal, peer }
         // Handle disconnection of the portal
         const subscription = portal.on.close.subscribe(() => {
             this.ngZone.run(async () => {
-                connection.update((value) => {
-                    delete value[id];
+                connections.update((value) => {
+                    const index = value.findIndex((connection) => connection.id === id);
+
+                    if (index !== -1) {
+                        value.splice(1, index);
+                    }
+                    
                     return value;
                 });
                 subscription.unsubscribe();
             });
         });
-
-        return connection()[id];
+        return connection;
     }
 
-    private get(domain: string, id: string) {
-        let portal = this.domainService.get.it(domain)()[id];
+    private get(id: string) {
+        // Get all domains
+        const domains = this.domainService.get.connected();
+        // Get all open connections
+        const connections = domains.map((domain) => this.domainService.get.it(domain)())
+                                   .reduce((connections, connection) => connections.concat(connection), []);
+        // Find portal in connection
+        return connections.find((connection) => connection.id === id);
+    }
 
-        if (!portal) {
-            portal = this.create(domain, id);
-        }
+    private save(domain: string, connection: IConnection) {
+        const connections = this.domainService.get.it(domain);
+        // Save connection
+        connections.update((value) => {
+            value.push(connection);
+            return value;
+        });
 
-        return portal;
     }
 
     public async connect(domain: string) {
@@ -87,45 +95,79 @@ export class FilePortalsService {
         let connection = this.domainService.get.it(domain);
         
         if (!connection) {
-            
+            // Create a listening on domain
             connection = this.domainService.create(domain);
         }
 
+        const pending: IConnection[] = []
         // Start listening for new connections on domain
         this.socket.on('link', async (link: { id: string, offer?: RTCSessionDescription }) => {
-            console.log('New connection: ', link);
+            console.log(new Date().getMilliseconds(), 'New link: ', link.id);
             // New offer from domain
             const { id, offer } = link;
-            // Create new portal to connect with it
-            const { peer } = this.get(domain, id);
+            // Find connection on connected
+            let connection = this.get(id);
+            // Already connected
+            if (connection) {
+                console.log('Avoiding to connect');
+            }
+            // Find on pending
+            connection = pending.find((connection) => connection.id === id);
+            // If not exist create one
+            if (!connection) {
+                connection = this.create(domain, id);
+                connection.portal.opening.then(() => {
+                    console.log('Connected!');
+                    this.save(domain, connection as IConnection);
+                });
+                pending.push(connection);
+            }
+
+            if (offer) {
+                console.log(new Date().getMilliseconds(), 'Reciving offer: ', offer.type);
+            } else {
+                console.log(new Date().getMilliseconds(), 'Responsing connection...');
+            }
+
+            const { peer } = connection;
+            console.log('Peer: ', peer);
             const response = await peer.connect(offer);
 
             if (response) {
+                console.log(new Date().getMilliseconds(), 'Responsing with: ', { id, offer: response });
                 // Emit response
-                console.log('Emitting link: ', { id, offer: response });
                 this.socket.emit('link', { id, offer: response });
             }
             // Check if there is an answer or response is type answer to emit candidates
             if (offer?.type === 'answer' || response?.type === 'answer') {
                 const candidates = await peer.candidates.export();
-                console.log('Emitting candidates: ', { id, candidates });
-                this.socket.emit('candidates', { id, candidates });
+                if (candidates.length) {
+                    console.log('Exporting candidates: ', candidates.length);
+                    this.socket.emit('candidates', { id, candidates });
+                    return;
+                }
+                
 
                 peer.on.candidate.subscribe((candidate) => {
-                    console.log('Emitting on.candidates: ', { id, candidates });
+                    console.log('Emitting candidates: ', candidate);
                     this.socket.emit('candidates', { id, candidates: [ candidate ] });
                 });
             }
         });
 
         this.socket.on('candidates', async (connection: { id: string, candidates: RTCIceCandidate[] }) => {
-            console.log('Importing candidates: ', connection);
             const { id, candidates } = connection;
 
-            const { peer } = this.get(domain, id);
+            const { peer } = this.get(id) || pending.find((connection) => connection.id === id) || { };
+
+            if (!peer) { 
+                return;
+            }
+
+            console.log('Importing candidates: ', candidates.length);
             peer.candidates.import(candidates);
         });
-        console.log('Querying in: ', domain);
+        console.log('Querying to domain: ', domain);
         this.socket.emit('query', domain);
 
         return connection;
@@ -134,5 +176,9 @@ export class FilePortalsService {
     public close(domain: string) {
         // Stop listening for new connections on domain
         this.socket.emit('exit', domain);
+        // Destroy live connections with peers
+        const peers = this.domainService.get.it(domain);
+
+        Object.values(peers()).forEach(({ portal }) => portal.shutdown());
     }
 }

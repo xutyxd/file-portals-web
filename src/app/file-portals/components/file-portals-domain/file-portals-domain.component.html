@@ -8,9 +8,9 @@
         <span>Stablishing connection</span>
     </div>
 } @else {
-    @for (connection of connection() | keyvalue; track $index) {
+    @for (connection of connection() ; track $index) {
         <app-file-portals-portal
-            [portal]="connection.value.portal">
+            [portal]="connection.portal">
         </app-file-portals-portal>
     } @empty {
         There is still no one

@@ -1,10 +1,11 @@
-import { Component, WritableSignal } from '@angular/core';
+import { Component, OnDestroy, OnInit, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FilePortal, FilePeer } from 'file-portals';
 import { FilePortalsService } from '../../services/file-portals.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FilePortalsPortalComponent } from '../file-portals-portal/file-portals-portal.component';
+import { IConnection } from '../../types/connection.type';
 
 @Component({
   selector: 'app-file-portals-domain',
@@ -13,14 +14,9 @@ import { FilePortalsPortalComponent } from '../file-portals-portal/file-portals-
   templateUrl: './file-portals-domain.component.html',
   styleUrl: './file-portals-domain.component.scss'
 })
-export class FilePortalsDomainComponent {
+export class FilePortalsDomainComponent implements OnInit, OnDestroy {
     private domain?: string;
-    public connection?: WritableSignal<{
-        [socketId: string]: {
-            portal: FilePortal;
-            peer: FilePeer;
-        };
-    }>
+    public connection?: WritableSignal<IConnection[]>
 
     constructor(private activatedRoute: ActivatedRoute,
                 private filePortalsService: FilePortalsService) {
@@ -41,5 +37,11 @@ export class FilePortalsDomainComponent {
         this.connection = await this.filePortalsService.connect(domain);
         
         console.log('Connection: ', this.connection());
+    }
+
+    public ngOnDestroy(): void {
+        console.log('Destroying component...');
+        // Stop listening for domain
+        this.filePortalsService.close(this.domain as string);
     }
 }

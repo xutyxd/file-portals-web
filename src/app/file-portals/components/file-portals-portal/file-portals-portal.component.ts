@@ -46,7 +46,7 @@ export class FilePortalsPortalComponent implements OnInit {
         });
 
         const information = await this.portal.information();
-
+        console.log('Information of portal: ', information);
         this.peer.set(information);
 
         this.portal.on.files.pipe(takeUntil(destroyed)).subscribe(({ resolve, reject }) => {
