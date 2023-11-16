@@ -44,7 +44,7 @@ export class FilePortalsPortalComponent implements OnInit {
             destroyed.next();
             destroyed.complete();
         });
-
+        console.log('Portal: ', this.portal);
         const information = await this.portal.information();
         console.log('Information of portal: ', information);
         this.peer.set(information);
