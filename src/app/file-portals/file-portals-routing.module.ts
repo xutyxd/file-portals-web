@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FilePortalsConnectComponent } from './components/file-portals-connect/file-portals-connect.component';
 import { FilePortalsLayoutComponent } from './components/file-portals-layout/file-portals-layout.component';
 import { FilePortalsDomainComponent } from './components/file-portals-domain/file-portals-domain.component';
 

@@ -1,4 +1,11 @@
 
+h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+}   
+
 .file-portal-loader {
     display: flex;
     flex-direction: column;

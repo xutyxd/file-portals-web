@@ -8,11 +8,20 @@
         <span>Stablishing connection</span>
     </div>
 } @else {
-    @for (connection of connection() ; track $index) {
-        <app-file-portals-portal
-            [portal]="connection.portal">
-        </app-file-portals-portal>
-    } @empty {
-        There is still no one
-    }
+    <header>
+        <h2>
+            <mat-icon svgIcon="portal-color"></mat-icon>
+            {{ domain | uppercase }}
+        </h2>
+    </header>
+
+    <section class="portals-container">
+        @for (connection of connection() ; track $index) {
+            <app-file-portals-portal
+                [portal]="connection.portal">
+            </app-file-portals-portal>
+        } @empty {
+            There is still no one
+        }
+    </section>
 }
