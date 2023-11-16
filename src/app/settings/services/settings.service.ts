@@ -116,7 +116,7 @@ export class SettingsService {
                     return value;
                 });
             } catch {
-                console.log('Error checking for update...');
+                console.warn('Error checking for update...');
             }
 
             return updateable;

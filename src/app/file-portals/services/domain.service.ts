@@ -55,9 +55,7 @@ export class DomainsService {
         // Check that exists
         if (!domainSignal) {
             domainSignal = this.create(domain);
-            console.log('Domain signal created: ', domainSignal);
         }
-        console.log('Domain signal: ', domainSignal());
 
         domainSignal.update((connections) => {
             const included = connections.map(({ id }) => id).includes(connection.id);
@@ -78,14 +76,14 @@ export class DomainsService {
         const domains = allDomains.filter((domain) => domain().map(({ id }) => id).includes(id));
         // Remove peer from each domain
         domains.forEach((domain) => {
-            domain.update((value) => {
-                const index = value.findIndex((connection) => connection.id === id);
+            domain.update((connections) => {
+                const index = connections.findIndex((connection) => connection.id === id);
 
                 if (index !== -1) {
-                    value.splice(1, index);
+                    connections.splice(index, 1);
                 }
                 
-                return value;
+                return connections;
             });
         });
     }

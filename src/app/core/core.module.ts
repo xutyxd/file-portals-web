@@ -26,6 +26,6 @@ import { SettingsService } from '../settings/services/settings.service';
 })
 export class CoreModule {
     constructor(settingsService: SettingsService) {
-        console.log('Current version: ', settingsService.version);
+        console.info('Current version: ', settingsService.version);
     }
 }

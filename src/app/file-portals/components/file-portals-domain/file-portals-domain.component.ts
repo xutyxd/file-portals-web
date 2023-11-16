@@ -35,12 +35,9 @@ export class FilePortalsDomainComponent implements OnInit, OnDestroy {
         await new Promise((resolve) => setTimeout(resolve, 500 - (end - start)));
 
         this.connection = await this.filePortalsService.connect(domain);
-        
-        console.log('Connection: ', this.connection());
     }
 
     public ngOnDestroy(): void {
-        console.log('Destroying component...');
         // Stop listening for domain
         this.filePortalsService.close(this.domain as string);
     }

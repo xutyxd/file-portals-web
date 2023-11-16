@@ -44,9 +44,8 @@ export class FilePortalsPortalComponent implements OnInit {
             destroyed.next();
             destroyed.complete();
         });
-        console.log('Portal: ', this.portal);
+
         const information = await this.portal.information();
-        console.log('Information of portal: ', information);
         this.peer.set(information);
 
         this.portal.on.files.pipe(takeUntil(destroyed)).subscribe(({ resolve, reject }) => {
@@ -67,7 +66,7 @@ export class FilePortalsPortalComponent implements OnInit {
             try {
                 this.ngZone.run(async () => {
                     const files = await this.portal.files();
-                    console.log('Files: ', files);
+
                     this.files.update((value) => {
                         const uuids = value.map(({ uuid }) => uuid);
 

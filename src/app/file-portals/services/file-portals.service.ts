@@ -35,7 +35,7 @@ export class FilePortalsService {
             const { peer } = this.connections.get.by.id(id) || { };
             // Check peer exists
             if (!peer) {
-                console.log('Peer not exist still');
+                console.warn('Peer not exist still');
                 return;
             }
 
@@ -53,7 +53,7 @@ export class FilePortalsService {
             const connection: IConnection = { id, portal, peer, domains: [ domain ] };
             // Handle disconnection of the portal
             const subscription = portal.on.close.subscribe(() => {
-                this.ngZone.run(async () => {
+                this.ngZone.run(() => {
                     this.domainsService.remove(connection);
                     subscription.unsubscribe();
                 });
@@ -73,46 +73,37 @@ export class FilePortalsService {
         },
         connect: async (link: { id: string, offer?: RTCSessionDescription, domain: string }) => {
             const { id, offer, domain } = link;
-            console.log('New link: ', { id, offer, domain });
             // Find connection
             let connection = this.connections.get.by.id(id);
-            console.log('Connection: ', connection);
             // Check if exist to create it
             if (!connection) {
                 connection = this.connections.create(id, domain);
                 this.Connections.push(connection);
-                console.log('Connection created: ', connection);
             } else {
                 // Add domain to connection if not includes it
                 const { domains } = connection;
 
                 if (!domains.includes(domain)) {
                     domains.push(domain);
-                    console.log('Domain added to connection');
                     // Notify to the caller this peer
                     this.peerDnsClientService.query(domain);
-
-                    // console.log('Connections for domain: ', (this.domains[domain] as WritableSignal<IConnection[]>)());
                 }
             }
             // Check if opened
             const { portal, peer } = connection;
             const { opened } = portal;
-            console.log('Is opened?: ', opened);
+
             if (!opened) {
                 // Try to connect
                 const response = await peer.connect(offer);
-                console.log('Response: ', response);
                 // Check if is it necesary to response
                 if (response) {
                     // Emit response
                     this.peerDnsClientService.send.link({ id, offer: response as RTCSessionDescription, domain });
-                    console.log('Responsed with: ', { id, offer: response as RTCSessionDescription, domain });
                 }
                 // Check if candidates need to be emitted
                 if (offer?.type === 'answer' || response?.type === 'answer') {
                     const candidates = await peer.candidates.export();
-                    console.log('Candidates exported: ', candidates);
                     this.peerDnsClientService.send.candidates({ id, candidates });
                     
                     peer.on.candidate.subscribe((candidate) => {
@@ -143,9 +134,5 @@ export class FilePortalsService {
     public close(domain: string) {
         // Stop listening for new connections on domain
         this.peerDnsClientService.exit(domain);
-        // Destroy live connections with peers
-        // const peers = this.domainService.get.it(domain);
-
-        // Object.values(peers()).forEach(({ portal }) => portal.shutdown());
     }
 }
