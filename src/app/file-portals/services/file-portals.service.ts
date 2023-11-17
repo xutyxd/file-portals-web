@@ -54,7 +54,15 @@ export class FilePortalsService {
             // Handle disconnection of the portal
             const subscription = portal.on.close.subscribe(() => {
                 this.ngZone.run(() => {
+                    // Remove from domain
                     this.domainsService.remove(connection);
+                    // Remove from connections
+                    const index = this.Connections.findIndex(({ id }) => connection.id === id);
+
+                    if (index !== -1) {
+                        this.Connections.splice(index, 1);
+                    }
+
                     subscription.unsubscribe();
                 });
             });

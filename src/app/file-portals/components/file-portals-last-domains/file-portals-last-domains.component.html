@@ -12,7 +12,7 @@
 
                 <div class="last-domain mat-elevation-z3">
                     <span>
-                        {{ domain.name }}
+                        {{ domain.name | uppercase }}
                     </span>
                     <button mat-flat-button color="primary" (click)="open(domain.name)">
                         <mat-icon svgIcon="portal-lines"></mat-icon>
