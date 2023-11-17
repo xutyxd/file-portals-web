@@ -1,0 +1,42 @@
+
+.last-domains-content {
+    overflow-x: overlay;
+}
+
+.last-domain-carousel {
+    width: max-content;
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+}
+
+
+.last-domain {
+    --padding: 16px;
+
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(170px - var(--padding) * 2);
+    width: calc(128px - var(--padding) * 2);
+    padding: var(--padding);
+
+    span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    button {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        mat-icon {
+            margin: 0;
+        }
+    }
+}

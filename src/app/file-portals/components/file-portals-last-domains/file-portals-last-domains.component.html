@@ -2,20 +2,28 @@
 
 <section class="last-domains-container">
     <section class="last-domain-title">
-        <h3>
+        <h2>
             Last domain visited
-        </h3>
+        </h2>
     </section>
-    <section class="last-domains-contend">
-        @for (domain of domains; track domain) {
-            <span>
-                {{ domain }}
-            </span>
-        } @empty {
-            <span>
-                You have not yet connected to any domain. Try it!
-            </span>
-        }
+    <section class="last-domains-content">
+        <div class="last-domain-carousel">
+            @for (domain of domains; track domain) {
+
+                <div class="last-domain mat-elevation-z3">
+                    <span>
+                        {{ domain.name }}
+                    </span>
+                    <button mat-flat-button color="primary" (click)="open(domain.name)">
+                        <mat-icon svgIcon="portal-lines"></mat-icon>
+                    </button>
+                </div>
+            } @empty {
+                <span>
+                    You have not yet connected to any domain. Try it!
+                </span>
+            }
+        </div>
     </section>
 </section>
 

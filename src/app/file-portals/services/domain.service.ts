@@ -31,14 +31,29 @@ export class DomainsService {
         this.domains[domain] = connection;
 
         const domains = this.userStorageService.get<IDomainStored[]>('domains') || [ ];
-        domains.push({ name: domain, date: Date.now() });
-        this.userStorageService.set('domains', domains);
+        // Sort them
+        const sorted = [ ...domains, { name: domain, date: Date.now() } ].sort((a, b) => b.date - a.date);
+        // Save
+        this.userStorageService.set('domains', sorted);
 
         return connection;
     }
 
     public get = {
         it: (domain: string) => {
+            // Update domain on localStorage
+            const domains = this.get.all();
+            const saved = domains.find(({ name }) => name === domain);
+
+            if (saved) {
+                // Update date
+                saved.date = Date.now();
+                // Sort them
+                const sorted = [ ...domains ].sort((a, b) => b.date - a.date);
+                // Save
+                this.userStorageService.set('domains', sorted);
+            }
+
             return this.domains[domain];
         },
         connected: () => {
