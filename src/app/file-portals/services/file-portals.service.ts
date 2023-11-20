@@ -1,12 +1,12 @@
-import { Injectable, NgZone, WritableSignal, signal } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 import { WebReader, WebWriter } from 'file-portals';
 import { FilePeer, FilePortal } from 'file-portals';
+import { PeerDnsClient } from 'peer-dns-client';
 import { UserStorageService } from '../../shared/providers/user-storage.service';
 import { IUser } from '../../shared/interfaces/user.interface';
 import { IConnection } from '../types/connection.type';
-import { PeerDnsClientService } from './peer-dns-client.service';
 import { DomainsService } from './domain.service';
 
 
@@ -17,20 +17,20 @@ export class FilePortalsService {
 
     private reader = new WebReader();
     private writer = new WebWriter();
-    // private domains: { [ domain: string ]: WritableSignal<IConnection[]> | undefined } = { };
+    private peerDnsClient = new PeerDnsClient(environment.peerDNS);
+
     private Connections: { id: string, portal: FilePortal, peer: FilePeer, domains: string[] }[] = [];
     private user: IUser;
 
     constructor(private ngZone: NgZone,
                 userStorageService: UserStorageService,
-                private peerDnsClientService: PeerDnsClientService,
                 private domainsService: DomainsService) {
 
         this.user = userStorageService.user.get();
         // Subscribe to dns service to get links
-        peerDnsClientService.on.link.subscribe(this.connections.connect);
+        this.peerDnsClient.on.link.subscribe(this.connections.connect);
         // Subscribe to dns services to get candidates
-        peerDnsClientService.on.candidates.subscribe(async ({ id, candidates }) => {
+        this.peerDnsClient.on.candidates.subscribe(async ({ id, candidates }) => {
             // Find peer
             const { peer } = this.connections.get.by.id(id) || { };
             // Check peer exists
@@ -94,7 +94,7 @@ export class FilePortalsService {
                 if (!domains.includes(domain)) {
                     domains.push(domain);
                     // Notify to the caller this peer
-                    this.peerDnsClientService.query(domain);
+                    this.peerDnsClient.query(domain);
                 }
             }
             // Check if opened
@@ -107,15 +107,15 @@ export class FilePortalsService {
                 // Check if is it necesary to response
                 if (response) {
                     // Emit response
-                    this.peerDnsClientService.send.link({ id, offer: response as RTCSessionDescription, domain });
+                    this.peerDnsClient.send.link({ id, offer: response as RTCSessionDescription, domain });
                 }
                 // Check if candidates need to be emitted
                 if (offer?.type === 'answer' || response?.type === 'answer') {
                     const candidates = await peer.candidates.export();
-                    this.peerDnsClientService.send.candidates({ id, candidates });
+                    this.peerDnsClient.send.candidates({ id, candidates });
                     
                     peer.on.candidate.subscribe((candidate) => {
-                        this.peerDnsClientService.send.candidates({ id, candidates: [ candidate ] });
+                        this.peerDnsClient.send.candidates({ id, candidates: [ candidate ] });
                     });
 
                     this.domainsService.update(domain, connection);
@@ -134,13 +134,13 @@ export class FilePortalsService {
             connection = this.domainsService.create(domain);
         }
 
-        this.peerDnsClientService.query(domain);
+        this.peerDnsClient.query(domain);
 
         return connection;
     }
 
     public close(domain: string) {
         // Stop listening for new connections on domain
-        this.peerDnsClientService.exit(domain);
+        this.peerDnsClient.exit(domain);
     }
 }

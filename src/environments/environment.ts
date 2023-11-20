@@ -3,7 +3,7 @@ import { version } from '../../package.json';
 export const environment = {
     peerDNS: {
         domain: 'https://peer-dns.onrender.com',
-        port: '443'
+        port: 443
     },
     RTCConfiguration: {
         iceServers: [
