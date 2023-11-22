@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { EventType, Router, RouterModule } from '@angular/router';
 import { FilePortalsLastDomainsComponent } from '../file-portals-last-domains/file-portals-last-domains.component';
+import { FilePortalsDownloadsComponent } from '../file-portals-downloads/file-portals-downloads.component';
 
 @Component({
   selector: 'app-file-portals-layout',
   standalone: true,
-  imports: [ RouterModule, FilePortalsLastDomainsComponent ],
+  imports: [
+    RouterModule,
+    FilePortalsLastDomainsComponent,
+    FilePortalsDownloadsComponent
+  ],
   templateUrl: './file-portals-layout.component.html',
   styleUrl: './file-portals-layout.component.scss'
 })

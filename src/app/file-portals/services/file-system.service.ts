@@ -3,6 +3,7 @@ import { IFile } from '../types/file.type';
 import { FilePortal, WebReader, WebWriter } from 'file-portals';
 import { Subject } from 'rxjs';
 import { ITransfer } from '../interfaces/transfer.interface';
+import { UserStorageService } from 'src/app/shared/providers/user-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,13 @@ export class FileSystemService {
         download: new Subject<any>()
     }
 
-    constructor() { }
+    constructor(private userStorageService: UserStorageService) { }
 
     public async download(portal: FilePortal, file: IFile) {
         // Create a writable
         const writable = await this.writer.create({ name: file.name, size: file.size });
         // Create a download
-        const download: ITransfer = { name: file.name, size: file.size, started: Date.now(), ended: undefined,  transferred: 0 };
+        const download: ITransfer = { uuid: crypto.randomUUID(), name: file.name, size: file.size, started: Date.now(), ended: 0,  transferred: 0 };
         // Emit download
         this.on.download.next(download);
         // Define chunk size of each part
@@ -54,8 +55,11 @@ export class FileSystemService {
         // Wait until all promises have been resolved
         await Promise.all(promises);
         // Update ended time of download
-        download.ended = Date.now() - download.started;
-        console.log('Ended in: ', download.ended / 1000);
+        download.ended = Date.now();
+        // Get user downloads
+        const downloads = this.userStorageService.get<ITransfer[]>('downloads') || [];
+        // Set on user storage
+        this.userStorageService.set('downloads', [ ...downloads, download ]);
         // Close writable, we finished download
         await this.writer.close(writable);
     }

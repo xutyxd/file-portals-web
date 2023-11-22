@@ -1,0 +1,11 @@
+
+<section class="file-portals-downloads">
+    <section class="file-portals-download-title">
+        Downloads
+    </section>
+    <section class="file-portals-download-content">
+        @for (download of downloads(); track download.uuid) {
+            <app-file-portals-transfer [transfer]="download"></app-file-portals-transfer>
+        }
+    </section>
+</section>

@@ -1,0 +1,39 @@
+
+.file-portals-transfer-container {
+    height: 80px;
+    border-radius: 4px;
+    display: flex;
+}
+
+.file-portals-transfer-icon,
+.file-portals-transfer-content {
+    height: 100%;
+}
+
+.file-portals-transfer-icon {
+    width: calc(20% - 1px);
+    border-right: 1px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-portals-transfer-content {
+    position: relative;
+    width: 80%;
+}
+
+.file-portals-transfer-information {
+    padding: 8px;
+}
+
+.file-portals-transfer-progress-bar {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    width: 100%;
+}
+
+mat-progress-bar {
+    border-bottom-right-radius: 4px;
+}

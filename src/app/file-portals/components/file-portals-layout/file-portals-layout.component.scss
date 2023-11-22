@@ -13,3 +13,11 @@
     right: 0;
     overflow-y: auto;
 }
+
+.file-portals-last-domains {
+    height: 250px;
+}
+
+.file-portals-downloads {
+    height: calc(100% - 250px);
+}

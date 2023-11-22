@@ -1,10 +1,11 @@
 
 <section class="file-portals-layout">
-    <section class="file-portals-last-domains">
-        @if(!navigated) {
-            <app-file-portals-last-domains></app-file-portals-last-domains>
-        }        
-    </section>
+        <section class="file-portals-last-domains">
+                <app-file-portals-last-domains></app-file-portals-last-domains>
+        </section>
+        <section class="file-portals-downloads">
+            <app-file-portals-downloads></app-file-portals-downloads>
+        </section>
     @if(navigated) {
         <section class="file-portals-navigation mat-app-background">
             <router-outlet></router-outlet>

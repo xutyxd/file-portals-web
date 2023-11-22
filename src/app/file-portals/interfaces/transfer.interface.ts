@@ -1,5 +1,6 @@
 
-export interface ITransfer { 
+export interface ITransfer {
+    uuid: string,
     name: string, 
     size: number,
     started: number,

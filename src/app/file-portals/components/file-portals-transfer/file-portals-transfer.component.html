@@ -1,0 +1,46 @@
+
+<div class="file-portals-transfer-container mat-elevation-z3">
+    <div class="file-portals-transfer-icon">
+        <mat-icon>note</mat-icon>
+    </div>
+    <div class="file-portals-transfer-content">
+        <div class="file-portals-transfer-information">
+            <div class="file-portals-transfer-name">
+                <span>
+                    Name:
+                </span>
+                <span>
+                    {{ transfer.name }}
+                </span>
+            </div>
+            <div class="file-portals-transfer-size">
+                <span>
+                    Size:
+                </span>
+                <span>
+                    {{ transfer.size }}
+                </span>
+            </div>
+            @if(transfer.ended) {
+                <div class="file-portals-transfer-time">
+                    <span>
+                        Time:
+                    </span>
+                    <span>
+                        {{ time }}
+                    </span>                
+                </div>
+            }
+        </div>
+        @if(!transfer.ended) {
+            <div class="file-portals-transfer-progress-bar">
+                <mat-progress-bar
+                    class="example-margin"
+                    [color]="'primary'"
+                    [mode]="'determinate'"
+                    [value]="percent">
+                </mat-progress-bar>
+            </div>
+        }
+    </div>
+</div>

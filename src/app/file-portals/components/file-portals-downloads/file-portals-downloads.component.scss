@@ -1,0 +1,13 @@
+
+.file-portals-downloads {
+    height: 100%;
+}
+
+.file-portals-download-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: calc(100% - 20px - 32px);
+    overflow-y: overlay;
+    padding: 16px;
+}
