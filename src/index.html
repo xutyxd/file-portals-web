@@ -6,6 +6,7 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preload" href="./assets/fonts/dune-rise-webfont.woff2" as="font" type="font/woff2">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -20,7 +21,16 @@
   <meta name="theme-color" content="#1976d2">
 </head>
 <body class="mat-typography mat-app-background">
-  <app-root></app-root>
-  <noscript>Please enable JavaScript to continue using this application.</noscript>
+    <section class="splash-screen-container mat-app-background">
+        <section class="splash-screen-logo">
+            <img src="./assets/icons/portal-color.svg" alt="">
+        </section>
+        <section class="splash-screen-label">
+            File Portals
+        </section>
+        <section class="splash-screen-footer"></section>
+    </section>
+    <app-root></app-root>
+    <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 </html>

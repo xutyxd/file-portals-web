@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'File Portals';
+export class AppComponent implements OnInit {
+    title = 'File Portals';
+
+    ngOnInit(): void {
+        window.onload = async () => { //triger when every thing is load (files, assets, components' resolver, etc)
+        
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            const splashElement = document.querySelector(".splash-screen-container") as HTMLElement;
+            console.log('SplashElement: ', splashElement);
+            if (!splashElement) {
+                return;
+            }
+            // All good so add clas "splashScreenFade" to hide the splash screen slowly 
+            splashElement.classList.add("fade");
+            splashElement.addEventListener('transitionend', (e) => {
+                splashElement.style.display = 'none'
+            });
+        }
+    }
 }
