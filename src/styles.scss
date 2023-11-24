@@ -16,6 +16,14 @@ body {
     --footer-margin-top: 25px;
 }
 
+/* Fonts */
+
+@font-face{
+    font-family: 'DuneRise';
+    src: url('./assets/fonts/dune-rise-webfont.woff2') format('woff2');
+    src: url('./assets/fonts/dune-rise-webfont.woff') format('woff'),
+}
+
 .full-screen-modal {
     max-width: unset !important;
     width: 100%;
@@ -36,4 +44,8 @@ body {
             max-height: unset !important;
         }
     }
+}
+
+.button[color='primary'] mat-icon {
+    color: white;
 }
