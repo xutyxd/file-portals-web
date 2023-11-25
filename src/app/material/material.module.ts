@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 // import { MatTabsModule } from '@angular/material/tabs';
@@ -13,7 +14,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   exports: [
     MatButtonModule,
@@ -22,6 +24,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatInputModule,
     MatProgressSpinnerModule
+  ],
+  providers: [
+    MatIconRegistry
   ]
 })
 export class MaterialModule {
