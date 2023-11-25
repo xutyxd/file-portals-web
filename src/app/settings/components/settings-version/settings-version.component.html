@@ -21,24 +21,18 @@
     <mat-card-actions align="end">
         @if(can().install) {
             <button mat-button (click)="install()" [disabled]="disabled().install || null">
-                <mat-icon>
-                    install_mobile
-                </mat-icon>
+                <mat-icon fontIcon="install_mobile"></mat-icon>
                 Install
             </button>
         }
         @if(can().update) {
             <button mat-button (click)="update()" [disabled]="disabled().update || null">
-                <mat-icon>
-                    system_update
-                </mat-icon>
+                <mat-icon fontIcon="system_update"></mat-icon>
                 Update
             </button>
         }
         <button mat-button (click)="check()" [disabled]="disabled().check || null">
-            <mat-icon>
-                sync
-            </mat-icon>
+            <mat-icon fontIcon="sync"></mat-icon>
             Check for update
         </button>
     </mat-card-actions>

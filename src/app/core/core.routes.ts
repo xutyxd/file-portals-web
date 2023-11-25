@@ -2,7 +2,10 @@ import { Routes } from "@angular/router";
 import { LayoutCoreComponent } from "./components/layout-core/layout-core.component";
 import { configuredGuard } from "./guards/configured.guard";
 import { MaterialIconService } from "../material/services/material-icon.service";
-import { SwUpdate } from "@angular/service-worker";
+import { SettingsService } from "../settings/services/settings.service";
+import { DomainsService } from "../file-portals/services/domain.service";
+import { FileSystemService } from "../file-portals/services/file-system.service";
+import { FilePortalsService } from "../file-portals/services/file-portals.service";
 
 export const CORE_ROUTES: Routes = [
     {
@@ -14,6 +17,10 @@ export const CORE_ROUTES: Routes = [
             { path: 'settings', loadChildren: () => import('../settings/settings.routes').then(r => r.SETTINGS_ROUTES) }
         ],
         providers: [
+            DomainsService,
+            FilePortalsService,
+            FileSystemService,
+            SettingsService,
             MaterialIconService
         ]
     }

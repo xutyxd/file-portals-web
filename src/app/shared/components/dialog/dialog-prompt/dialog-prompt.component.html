@@ -1,15 +1,16 @@
 
 <app-dialog-header [text]="title" [ref]="dialogRef"></app-dialog-header>
-<mat-dialog-content [formGroup]="promptForm">
-    <!-- <mat-form-field>
-        <input matInput [(ngModel)]="value">
-    </mat-form-field> -->
-    <mat-form-field >
-        <input matInput formControlName="prompt">
-    </mat-form-field>
+<mat-dialog-content>
+    <section class="prompt-form-container" [formGroup]="promptForm">
+        <form (submit)="accept()">
+            <mat-form-field >
+                <input matInput formControlName="prompt">
+            </mat-form-field>
+        </form>
+    </section>
 </mat-dialog-content>
 <mat-divider></mat-divider>
 <mat-dialog-actions align="end">
     <button mat-raised-button (click)="close()">Cancel</button>
-    <button mat-raised-button class="mat-primary" (click)="accept()">Accept</button>
+    <button mat-raised-button class="mat-primary" [disabled]="promptForm.valid ? null : true" (click)="accept()">Accept</button>
 </mat-dialog-actions>

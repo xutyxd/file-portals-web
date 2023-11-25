@@ -1,13 +1,11 @@
 <mat-card>
     <mat-card-header>
         <mat-card-title>
-            <mat-icon>
-                @if(peer().type === 'client') {
-                    person
-                } @else {
-                    dns
-                }
-            </mat-icon>
+            @if(peer().type === 'client') {
+                <mat-icon fontIcon="person"></mat-icon>
+            } @else {
+                <mat-icon fontIcon="dns"></mat-icon>
+            }
             <span>
                 {{ peer().name }}
             </span>

@@ -5,6 +5,7 @@ import { DialogHeaderComponent } from '../dialog-header/dialog-header.component'
 import { MatDividerModule } from '@angular/material/divider';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-dialog-prompt',
@@ -13,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatButtonModule,
     MatDialogModule,
     MatDividerModule,
     DialogHeaderComponent
@@ -35,6 +37,13 @@ export class DialogPromptComponent {
     }
 
     public accept() {
+
+        const { invalid } = this.promptForm;
+
+        if (invalid) {
+            return;
+        }
+
         const { prompt } = this.promptForm.getRawValue();
 
         this.close(prompt || false);

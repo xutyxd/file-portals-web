@@ -10,8 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [
     CommonModule,
+    MatIconModule,
     MatButtonModule,
-    MatIconModule
   ],
   templateUrl: './layout-footer.component.html',
   styleUrls: ['./layout-footer.component.scss']
