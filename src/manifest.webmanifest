@@ -1,7 +1,7 @@
 {
   "name": "File Portals App",
   "short_name": "File Portals",
-  "theme_color": "#1976d2",
+  "theme_color": "#41ae00",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

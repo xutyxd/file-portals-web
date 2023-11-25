@@ -1,10 +1,11 @@
 import { ApplicationConfig, isDevMode } from '@angular/core';
+
 import { provideAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http'
+import { provideServiceWorker } from '@angular/service-worker';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [

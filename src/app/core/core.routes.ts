@@ -1,6 +1,9 @@
 import { Routes } from "@angular/router";
+// Components
 import { LayoutCoreComponent } from "./components/layout-core/layout-core.component";
+// Guards
 import { configuredGuard } from "./guards/configured.guard";
+// Services
 import { MaterialIconService } from "../material/services/material-icon.service";
 import { SettingsService } from "../settings/services/settings.service";
 import { DomainsService } from "../file-portals/services/domain.service";
