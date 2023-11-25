@@ -4,12 +4,20 @@
 }
 
 .last-domain-carousel {
+    min-width: calc(100% - 32px);
     width: max-content;
     display: flex;
     gap: 16px;
     padding: 16px;
 }
 
+.last-domain-empty {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .last-domain {
     --padding: 16px;
@@ -35,6 +43,8 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
 
         mat-icon {
             margin: 0;

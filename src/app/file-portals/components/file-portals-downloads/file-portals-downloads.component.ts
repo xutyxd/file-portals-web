@@ -1,15 +1,17 @@
 import { Component, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserStorageService } from 'src/app/shared/providers/user-storage.service';
+import { UserStorageService } from '../../../shared/providers/user-storage.service';
 import { FileSystemService } from '../../services/file-system.service';
 import { ITransfer } from '../../interfaces/transfer.interface';
 import { FilePortalsTransferComponent } from '../file-portals-transfer/file-portals-transfer.component';
+import { FpTitleComponent } from '../../../ui/components/molecules/fp-title/fp-title.component';
 
 @Component({
   selector: 'app-file-portals-downloads',
   standalone: true,
   imports: [
     CommonModule,
+    FpTitleComponent,
     FilePortalsTransferComponent
   ],
   templateUrl: './file-portals-downloads.component.html',

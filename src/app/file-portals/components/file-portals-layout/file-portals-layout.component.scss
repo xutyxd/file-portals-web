@@ -2,6 +2,7 @@
 .file-portals-layout {
     position: relative;
     height: 100%;
+    padding: 0 16px;
 }
 
 .file-portals-navigation {
@@ -12,6 +13,7 @@
     left: 0;
     right: 0;
     overflow-y: auto;
+    z-index: 1;
 }
 
 .file-portals-last-domains {

@@ -1,7 +1,7 @@
 
 <section class="file-portals-downloads">
     <section class="file-portals-download-title">
-        Downloads
+        <app-fp-title [title]="'Downloads'"></app-fp-title>
     </section>
     <section class="file-portals-download-content">
         @for (download of downloads(); track download.uuid) {

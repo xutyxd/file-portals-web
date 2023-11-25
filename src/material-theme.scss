@@ -1,264 +1,116 @@
-/**
-* Generated theme by Material Theme Generator
-* https://materialtheme.arcsine.dev
-* Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48IzQxYWUwMCIsIj9lcjwjYzZlN2IzIiwiO2VyPCMyYTk0MDB$LCIlPmBePCM3MmRhMzgiLCI~ZXI8I2Q1ZjRjMyIsIjtlcjwjNTVjYjI0fiwid2Fybj5gXjwjZmY1NTE1IiwiP2VyPCNmZmNjYjkiLCI7ZXI8I2ZmM2IwY34sIj9UZXh0PCMwMDAwMDAiLCI~PTwjZmFmYWZhIiwiO1RleHQ8I2ZmZmZmZiIsIjs9PCMyYzJjMmN$LCJmb250cz5bYEA8KC00fixgQDwoLTN$LGBAPCgtMn4sYEA8KC0xfixgQDxoZWFkbGluZX4sYEA8dGl0bGV$LGBAPHN1YiktMn4sYEA8c3ViKS0xfixgQDxib2R5LTJ$LGBAPGJvZHktMX4sYEA8YnV0dG9ufixgQDxjYXB0aW9ufixgQDxpbnB1dCIsInNpemU$bnVsbH1dLCJpY29uczxGaWxsZWQiLCI~bmVzcz5mYWxzZSwidmVyc2lvbj4xM30=
-*/
 
 @use '@angular/material' as mat;
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-
-// Fonts
-// @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-     
-$fontConfig: (
-  display-4: mat.define-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
-  display-3: mat.define-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
-  display-2: mat.define-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
-  display-1: mat.define-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
-  headline: mat.define-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
-  title: mat.define-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
-  subheading-2: mat.define-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
-  subheading-1: mat.define-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
-  body-2: mat.define-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
-  body-1: mat.define-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
-  button: mat.define-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
-  caption: mat.define-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
-  input: mat.define-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
-);
-
-// Foreground Elements
-
-// Light Theme Text
-$dark-text: #000000;
-$dark-primary-text: rgba($dark-text, 0.87);
-$dark-accent-text: rgba($dark-primary-text, 0.54);
-$dark-disabled-text: rgba($dark-primary-text, 0.38);
-$dark-dividers: rgba($dark-primary-text, 0.12);
-$dark-focused: rgba($dark-primary-text, 0.12);
-
-$mat-light-theme-foreground: (
-  base:              black,
-  divider:           $dark-dividers,
-  dividers:          $dark-dividers,
-  disabled:          $dark-disabled-text,
-  disabled-button:   rgba($dark-text, 0.26),
-  disabled-text:     $dark-disabled-text,
-  elevation:         black,
-  secondary-text:    $dark-accent-text,
-  hint-text:         $dark-disabled-text,
-  accent-text:       $dark-accent-text,
-  icon:              $dark-accent-text,
-  icons:             $dark-accent-text,
-  text:              $dark-primary-text,
-  slider-min:        $dark-primary-text,
-  slider-off:        rgba($dark-text, 0.26),
-  slider-off-active: $dark-disabled-text,
-);
-
-// Dark Theme text
-$light-text: #ffffff;
-$light-primary-text: $light-text;
-$light-accent-text: rgba($light-primary-text, 0.7);
-$light-disabled-text: rgba($light-primary-text, 0.5);
-$light-dividers: rgba($light-primary-text, 0.12);
-$light-focused: rgba($light-primary-text, 0.12);
-
-$mat-dark-theme-foreground: (
-  base:              $light-text,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
-  disabled-button:   rgba($light-text, 0.3),
-  disabled-text:     $light-disabled-text,
-  elevation:         black,
-  hint-text:         $light-disabled-text,
-  secondary-text:    $light-accent-text,
-  accent-text:       $light-accent-text,
-  icon:              $light-text,
-  icons:             $light-text,
-  text:              $light-text,
-  slider-min:        $light-text,
-  slider-off:        rgba($light-text, 0.3),
-  slider-off-active: rgba($light-text, 0.3),
-);
-
-// Background config
-// Light bg
-$light-background:    #fafafa;
-$light-bg-darker-5:   darken($light-background, 5%);
-$light-bg-darker-10:  darken($light-background, 10%);
-$light-bg-darker-20:  darken($light-background, 20%);
-$light-bg-darker-30:  darken($light-background, 30%);
-$light-bg-lighter-5:  lighten($light-background, 5%);
-$dark-bg-tooltip:     lighten(#2c2c2c, 20%);
-$dark-bg-alpha-4:     rgba(#2c2c2c, 0.04);
-$dark-bg-alpha-12:    rgba(#2c2c2c, 0.12);
-
-$mat-light-theme-background: (
-  background:               $light-background,
-  status-bar:               $light-bg-darker-20,
-  app-bar:                  $light-bg-darker-5,
-  hover:                    $dark-bg-alpha-4,
-  card:                     $light-bg-lighter-5,
-  dialog:                   $light-bg-lighter-5,
-  tooltip:                  $dark-bg-tooltip,
-  disabled-button:          $dark-bg-alpha-12,
-  raised-button:            $light-bg-lighter-5,
-  focused-button:           $dark-focused,
-  selected-button:          $light-bg-darker-20,
-  selected-disabled-button: $light-bg-darker-30,
-  disabled-button-toggle:   $light-bg-darker-10,
-  unselected-chip:          $light-bg-darker-10,
-  disabled-list-option:     $light-bg-darker-10,
-);
-
-// Dark bg
-$dark-background:     #2c2c2c;
-$dark-bg-lighter-5:   lighten($dark-background, 5%);
-$dark-bg-lighter-10:  lighten($dark-background, 10%);
-$dark-bg-lighter-20:  lighten($dark-background, 20%);
-$dark-bg-lighter-30:  lighten($dark-background, 30%);
-$light-bg-alpha-4:    rgba(#fafafa, 0.04);
-$light-bg-alpha-12:   rgba(#fafafa, 0.12);
-
-// Background palette for dark themes.
-$mat-dark-theme-background: (
-  background:               $dark-background,
-  status-bar:               $dark-bg-lighter-20,
-  app-bar:                  $dark-bg-lighter-5,
-  hover:                    $light-bg-alpha-4,
-  card:                     $dark-bg-lighter-5,
-  dialog:                   $dark-bg-lighter-5,
-  tooltip:                  $dark-bg-lighter-20,
-  disabled-button:          $light-bg-alpha-12,
-  raised-button:            $dark-bg-lighter-5,
-  focused-button:           $light-focused,
-  selected-button:          $dark-bg-lighter-20,
-  selected-disabled-button: $dark-bg-lighter-30,
-  disabled-button-toggle:   $dark-bg-lighter-10,
-  unselected-chip:          $dark-bg-lighter-20,
-  disabled-list-option:     $dark-bg-lighter-10,
-);
-
-// Compute font config
-// @include mat.core($fontConfig);
 @include mat.core();
 
-// Theme Config
+$file-portals-palette: (
+    50: #e8f5e4,
+    100: #c8e6bc,
+    200: #a3d691,
+    300: #7dc662,
+    400: #5fba3c,
+    500: #40ae00,
+    600: #359f00,
+    700: #268d00,
+    800: #137d00,
+    900: #005e00,
+    contrast: (
+        50: black,
+        100: black,
+        200: black,
+        300: black,
+        400: black,
+        500: black,
+        600: black,
+        700: white,
+        800: white,
+        900: white
+    )
+);
 
-body {
-  --primary-color: #41ae00;
-  --primary-lighter-color: #c6e7b3;
-  --primary-darker-color: #2a9400;
-  --text-primary-color: #{$light-primary-text};
-  --text-primary-lighter-color: #{$dark-primary-text};
-  --text-primary-darker-color: #{$light-primary-text};
-}   
-$mat-primary: (
-  main: #41ae00,
-  lighter: #c6e7b3,
-  darker: #2a9400,
-  200: #41ae00, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
+$file-portals-accent-palette: (
+    50: #f5e5f7,
+    100: #e4bdec,
+    200: #d390e1,
+    300: #c162d5,
+    400: #b43ccb,
+    500: #a503c1,
+    600: #9604bc,
+    700: #8102b5,
+    800: #6e00ae,
+    900: #4800a4,
+    contrast: (
+        50: black,
+        100: black,
+        200: black,
+        300: black,
+        400: black,
+        500: black,
+        600: black,
+        700: white,
+        800: white,
+        900: white
+    )
+);
+
+ $file-portals-warn-palette: (
+  50: #f5fae5,
+  100: #e7f2be,
+  200: #d7eb93,
+  300: #c7e268,
+  400: #bbdb45,
+  500: #b1d618,
+  600: #a6c40f,
+  700: #97ae00,
+  800: #889700,
+  900: #6f7100,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: black,
+    600: white,
+    700: white,
+    800: white,
+    900: white
   )
 );
-$theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
 
+$file-portals-angular-primary: mat.define-palette($file-portals-palette, 500, 300, 700);
+$file-portals-angular-accent: mat.define-palette($file-portals-accent-palette, 900, 300, 600);
 
-body {
-  --accent-color: #72da38;
-  --accent-lighter-color: #d5f4c3;
-  --accent-darker-color: #55cb24;
-  --text-accent-color: #{$dark-primary-text};
-  --text-accent-lighter-color: #{$dark-primary-text};
-  --text-accent-darker-color: #{$dark-primary-text};
-}   
-$mat-accent: (
-  main: #72da38,
-  lighter: #d5f4c3,
-  darker: #55cb24,
-  200: #72da38, // For slide toggle,
-  contrast : (
-    main: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $dark-primary-text,
-  )
-);
-$theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
+// The warn palette is optional (defaults to red).
+$file-portals-angular-warn: mat.define-palette($file-portals-warn-palette, 900);
 
+// Define a dark theme
+$dark-theme: mat.define-dark-theme((
+    color: (
+        primary: mat.define-palette($file-portals-angular-primary),
+        accent: mat.define-palette($file-portals-angular-accent),
+        warn: mat.define-palette($file-portals-angular-warn)
+    ),
+    // Only include `typography` and `density` in the default dark theme.
+    typography: mat.define-typography-config(),
+    density: 0,
+));
 
-body {
-  --warn-color: #ff5515;
-  --warn-lighter-color: #ffccb9;
-  --warn-darker-color: #ff3b0c;
-  --text-warn-color: #{$dark-primary-text};
-  --text-warn-lighter-color: #{$dark-primary-text};
-  --text-warn-darker-color: #{$light-primary-text};
-}   
-$mat-warn: (
-  main: #ff5515,
-  lighter: #ffccb9,
-  darker: #ff3b0c,
-  200: #ff5515, // For slide toggle,
-  contrast : (
-    main: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
-  )
-);
-$theme-warn: mat.define-palette($mat-warn, main, lighter, darker);
-;
+// Define a light theme
+$light-theme: mat.define-light-theme((
+    color: (
+        primary: mat.define-palette($file-portals-angular-primary),
+        accent: mat.define-palette($file-portals-angular-accent),
+        warn: mat.define-palette($file-portals-angular-warn)
+    ),
+));
 
-$theme: (
-  primary: $theme-primary,
-  accent: $theme-accent,
-  warn: $theme-warn,
-  is-dark: false,
-  foreground: $mat-light-theme-foreground,
-  background: $mat-light-theme-background,
-);
+// Apply the dark theme by default
+@include mat.all-component-themes($dark-theme);
 
-$altTheme: (
-  primary: $theme-primary,
-  accent: $theme-accent,
-  warn: $theme-warn,
-  is-dark: true,
-  foreground: $mat-dark-theme-foreground,
-  background: $mat-dark-theme-background,
-);
-
-// Theme Init
-@include mat.all-component-themes($theme);
-
-.theme-alternate {
-  @include mat.all-component-themes($altTheme);
-}
-
-// Specific component overrides, pieces that are not in line with the general theming
-
-// Handle buttons appropriately, with respect to line-height
-.mat-raised-button, .mat-stroked-button, .mat-flat-button {
-  padding: 0 1.15em;
-  margin: 0 .65em;
-  min-width: 3em;
-  line-height: 36.4px
-}
-
-.mat-standard-chip {
-  padding: .5em .85em;
-  min-height: 2.5em;
-}
-
-.material-icons {
-  font-size: 24px;
-  font-family: 'Material Icons', 'Material Icons';  
-  .mat-badge-content {
-    font-family: 'Roboto';
-  }
+// Apply the light theme only when the user prefers light themes.
+@media (prefers-color-scheme: light) {
+    // Use the `-color` mixins to only apply color styles without reapplying the same
+    // typography and density styles.
+    @include mat.all-component-colors($light-theme);
 }

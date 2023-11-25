@@ -4,6 +4,7 @@ import { DialogService } from '../../../shared/services/dialog.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { FilePortalsService } from 'src/app/file-portals/services/file-portals.service';
 
 @Component({
   selector: 'app-layout-footer',
@@ -22,19 +23,13 @@ export class LayoutFooterComponent {
     public activeLink = this.links[0];
 
     constructor(private router: Router,
-                private dialogService: DialogService) { }
+                private filePortalsService: FilePortalsService) { }
 
     public navigate(where: 'home' | `portal/${string}` | 'settings') {
         this.router.navigateByUrl(`${where}`);
     }
 
-    public async open() {
-        const portal = await this.dialogService.prompt('Where do you want to connect?');
-
-        if (!portal) {
-            return;
-        }
-        
-        this.navigate(`portal/${portal}`);
+    public open() {
+        this.filePortalsService.open();
     }
 }

@@ -2,9 +2,7 @@
 
 <section class="last-domains-container">
     <section class="last-domain-title">
-        <h2>
-            Last domain visited
-        </h2>
+        <app-fp-title [title]="'Lasts domains visited'"></app-fp-title>
     </section>
     <section class="last-domains-content">
         <div class="last-domain-carousel">
@@ -19,9 +17,9 @@
                     </button>
                 </div>
             } @empty {
-                <span>
-                    You have not yet connected to any domain. Try it!
-                </span>
+                <section class="last-domain-empty">
+                    <button mat-button color="primary" (click)="open()">Start connecting!</button>
+                </section>
             }
         </div>
     </section>

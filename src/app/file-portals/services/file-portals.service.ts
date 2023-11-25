@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 import { WebReader, WebWriter } from 'file-portals';
@@ -8,6 +9,7 @@ import { UserStorageService } from '../../shared/providers/user-storage.service'
 import { IUser } from '../../shared/interfaces/user.interface';
 import { IConnection } from '../types/connection.type';
 import { DomainsService } from './domain.service';
+import { DialogService } from '../../shared/services/dialog.service';
 
 
 @Injectable({
@@ -23,6 +25,8 @@ export class FilePortalsService {
     private user: IUser;
 
     constructor(private ngZone: NgZone,
+                private router: Router,
+                private dialogService: DialogService,
                 userStorageService: UserStorageService,
                 private domainsService: DomainsService) {
 
@@ -126,6 +130,20 @@ export class FilePortalsService {
         }
     }
 
+    public async open(domain?: string) {
+
+        let portal = domain;
+
+        if (!portal) {
+            portal = await this.dialogService.prompt('Where do you want to connect?');
+        }
+
+        if (!portal) {
+            return;
+        }
+        
+        this.router.navigateByUrl(`portal/${portal}`);
+    }
 
     public async connect(domain: string) {
         let connection = this.domainsService.get.it(domain);

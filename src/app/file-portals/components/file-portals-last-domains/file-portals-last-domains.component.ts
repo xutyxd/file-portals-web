@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FpTitleComponent } from 'src/app/ui/components/molecules/fp-title/fp-title.component';
+import { FilePortalsService } from '../../services/file-portals.service';
 
 @Component({
   selector: 'app-file-portals-last-domains',
@@ -15,7 +17,8 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    FpTitleComponent
   ],
   templateUrl: './file-portals-last-domains.component.html',
   styleUrl: './file-portals-last-domains.component.scss',  
@@ -25,11 +28,12 @@ export class FilePortalsLastDomainsComponent {
     public domains: IDomainStored[] = [];
 
     constructor(private router: Router,
-                domainsService: DomainsService) {
+                domainsService: DomainsService,
+                private filePortalsService: FilePortalsService) {
         this.domains = domainsService.get.all();
     }
 
-    public open(domain: string) {
-        this.router.navigateByUrl(`/portal/${domain}`);
+    public open(domain?: string) {
+        this.filePortalsService.open(domain);
     }
 }
