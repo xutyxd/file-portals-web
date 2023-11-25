@@ -1,8 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 
 @Component({
   selector: 'app-dialog-boolean',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatDividerModule,
+    DialogHeaderComponent
+  ],
   templateUrl: './dialog-boolean.component.html',
   styleUrl: './dialog-boolean.component.scss'
 })

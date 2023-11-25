@@ -6,7 +6,11 @@ import { SettingsVersionComponent } from '../settings-version/settings-version.c
 @Component({
   selector: 'app-settings-layout',
   standalone: true,
-  imports: [ CommonModule, MatDividerModule, SettingsVersionComponent ],
+  imports: [
+    CommonModule,
+    MatDividerModule,
+    SettingsVersionComponent 
+  ],
   templateUrl: './settings-layout.component.html',
   styleUrl: './settings-layout.component.scss'
 })

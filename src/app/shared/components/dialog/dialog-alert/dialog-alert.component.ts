@@ -1,8 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
 
 @Component({
   selector: 'app-dialog-alert',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatDividerModule,
+    DialogHeaderComponent
+  ],
   templateUrl: './dialog-alert.component.html',
   styleUrl: './dialog-alert.component.scss'
 })

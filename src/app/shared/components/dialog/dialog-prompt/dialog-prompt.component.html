@@ -1,8 +1,11 @@
 
 <app-dialog-header [text]="title" [ref]="dialogRef"></app-dialog-header>
-<mat-dialog-content>
-    <mat-form-field>
+<mat-dialog-content [formGroup]="promptForm">
+    <!-- <mat-form-field>
         <input matInput [(ngModel)]="value">
+    </mat-form-field> -->
+    <mat-form-field >
+        <input matInput formControlName="prompt">
     </mat-form-field>
 </mat-dialog-content>
 <mat-divider></mat-divider>

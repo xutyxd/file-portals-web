@@ -12,7 +12,12 @@ import { IFile } from '../../types/file.type';
 @Component({
   selector: 'app-file-portals-files',
   standalone: true,
-  imports: [CommonModule, MatListModule, MatMenuModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatListModule,
+    MatMenuModule,
+    MatIconModule
+  ],
   templateUrl: './file-portals-files.component.html',
   styleUrl: './file-portals-files.component.scss'
 })

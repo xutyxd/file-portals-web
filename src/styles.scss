@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+// /* You can add global styles to this file, and also import other style files */
 
 @import './material-theme.scss';
 
@@ -17,7 +17,6 @@ body {
 }
 
 /* Fonts */
-
 @font-face{
     font-family: 'DuneRise';
     src: url('./assets/fonts/dune-rise-webfont.woff2') format('woff2');
@@ -86,6 +85,7 @@ body {
     }
 }
 
-.button[color='primary'] mat-icon {
-    color: white;
-}
+// button[color='primary'],
+// button[color='accent'] {
+//     color: white !important;
+// }

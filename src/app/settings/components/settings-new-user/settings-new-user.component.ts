@@ -11,10 +11,12 @@ import { UserStorageService } from 'src/app/shared/providers/user-storage.servic
 @Component({
   selector: 'app-settings-new-user',
   standalone: true,
-  imports: [CommonModule,
-            ReactiveFormsModule,
-            MatInputModule,
-            MatButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule
+  ],
   templateUrl: './settings-new-user.component.html',
   styleUrl: './settings-new-user.component.scss'
 })

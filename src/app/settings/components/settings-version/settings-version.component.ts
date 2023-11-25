@@ -8,7 +8,12 @@ import { SettingsService } from '../../services/settings.service';
 @Component({
   selector: 'app-settings-version',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './settings-version.component.html',
   styleUrl: './settings-version.component.scss'
 })
