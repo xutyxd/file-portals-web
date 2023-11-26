@@ -21,6 +21,7 @@ export class SettingsService {
     constructor(private readonly swUptade: SwUpdate,
                 private dialogService: DialogService,
                 private appStorageService: AppStorageService) {
+        console.log('Settings constructor...');
         this.darkMode = this.dark;
         this.checkVersion();
 

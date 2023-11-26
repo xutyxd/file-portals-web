@@ -20,7 +20,7 @@ body {
 @font-face{
     font-family: 'DuneRise';
     src: url('./assets/fonts/dune-rise-webfont.woff2') format('woff2');
-    src: url('./assets/fonts/dune-rise-webfont.woff') format('woff'),
+    font-display: swap;
 }
 
 /* Splash screen */

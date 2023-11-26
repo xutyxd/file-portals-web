@@ -1,15 +1,21 @@
 
-.file-portals-downloads {
+.file-portals-downloads-list {
     height: 100%;
+    padding: 0 16px;
 }
 
-.file-portals-download-content {
+.file-portals-downloads-stats {
+    padding: 0 16px;
+    margin-bottom: 16px;
+}
+
+.file-portals-downloads-list-content {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    height: calc(100% - 50px - 32px);
+    height: calc(100% - 50px - 66px - 32px);
     overflow-y: overlay;
-    padding: 16px;
+    padding: 0 16px;
     position: relative;
 
     app-file-portals-downloads-stats {
@@ -23,7 +29,7 @@
     }
 }
 
-.file-portals-download-empty {
+.file-portals-downloads-empty {
     display: flex;
     align-items: center;
     justify-content: center;

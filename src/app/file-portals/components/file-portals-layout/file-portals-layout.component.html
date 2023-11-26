@@ -1,11 +1,20 @@
 
 <section class="file-portals-layout">
-        <section class="file-portals-last-domains">
-                <app-file-portals-last-domains></app-file-portals-last-domains>
-        </section>
-        <section class="file-portals-downloads">
-            <app-file-portals-downloads></app-file-portals-downloads>
-        </section>
+    <section class="file-portals-welcome">
+        <div class="file-portals-welcome-background"></div>
+        <span>
+            Hello
+        </span>
+        <span class="file-portals-welcome-name">
+            {{ nickname }}
+        </span>
+    </section>
+    <section class="file-portals-last-domains">
+        <app-file-portals-last-domains></app-file-portals-last-domains>
+    </section>
+    <section class="file-portals-downloads">
+        <app-file-portals-downloads></app-file-portals-downloads>
+    </section>
     @if(navigated) {
         <section class="file-portals-navigation mat-app-background">
             <router-outlet></router-outlet>

@@ -1,0 +1,20 @@
+
+<div class="file-portals-downloads-stats mat-elevation-z3" matRipple >
+    <div class="file-portals-downloads-stats-items">
+        <span>
+            Items
+        </span>
+        <span>
+            {{ downloads().length }}
+        </span>
+    </div>
+    <mat-divider vertical></mat-divider>
+    <div class="file-portals-downloads-stats-size">
+        <span>
+            Size
+        </span>
+        <span>
+            {{ size(downloads()) | bytes:'b' }}
+        </span>
+    </div>
+</div>

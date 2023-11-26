@@ -3,6 +3,10 @@
 
 @include mat.core();
 
+html {
+    --primary-color: #40ae00;
+}
+
 $file-portals-palette: (
     50: #e8f5e4,
     100: #c8e6bc,

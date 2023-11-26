@@ -1,0 +1,17 @@
+<section class="file-portals-downloads-list">
+    <section class="file-portals-downloads-list-title">
+        <app-fp-title [title]="'Downloads'"></app-fp-title>
+    </section>
+    <section class="file-portals-downloads-stats">
+        <app-file-portals-downloads-stats></app-file-portals-downloads-stats>
+    </section>
+    <section class="file-portals-downloads-list-content">
+        @for (download of downloads(); track download.uuid) {
+            <app-file-portals-transfer [transfer]="download"></app-file-portals-transfer>
+        } @empty {
+            <div class="file-portals-downloads-empty">
+                No downloads yet
+            </div>
+        }
+    </section>
+</section>

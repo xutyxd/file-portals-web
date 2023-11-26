@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ITransfer } from 'src/app/file-portals/interfaces/transfer.interface';
 import { MatIconModule } from '@angular/material/icon';
+import { BytesPipe } from "../../../shared/pipes/bytes.pipe";
 
 @Component({
-  selector: 'app-file-portals-transfer',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatProgressBarModule
-  ],
-  templateUrl: './file-portals-transfer.component.html',
-  styleUrl: './file-portals-transfer.component.scss'
+    selector: 'app-file-portals-transfer',
+    standalone: true,
+    templateUrl: './file-portals-transfer.component.html',
+    styleUrl: './file-portals-transfer.component.scss',
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatProgressBarModule,
+        BytesPipe
+    ]
 })
 export class FilePortalsTransferComponent {
 

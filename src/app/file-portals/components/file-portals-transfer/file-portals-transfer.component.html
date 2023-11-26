@@ -18,7 +18,7 @@
                     Size:
                 </span>
                 <span>
-                    {{ transfer.size }}
+                    {{ transfer.size | bytes:'b' }}
                 </span>
             </div>
             @if(transfer.ended) {
@@ -27,7 +27,7 @@
                         Time:
                     </span>
                     <span>
-                        {{ time }}
+                        {{ time | date:'mm:ss'}}
                     </span>                
                 </div>
             }

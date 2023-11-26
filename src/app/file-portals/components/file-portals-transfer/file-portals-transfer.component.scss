@@ -24,7 +24,23 @@
 }
 
 .file-portals-transfer-information {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     padding: 8px;
+
+    div {
+        display: flex;
+        gap: 8px;
+
+        span + span {
+            width: calc(100% - 55px - 8px);
+            display: block;
+            text-wrap: nowrap;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+        }
+    }
 }
 
 .file-portals-transfer-progress-bar {

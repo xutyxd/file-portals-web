@@ -7,6 +7,7 @@
 
 .file-portals-navigation {
     height: 100%;
+    padding-bottom: 40px;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -16,10 +17,37 @@
     z-index: 1;
 }
 
+.file-portals-welcome {
+    height: calc(100% - 500px);
+    max-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    margin: 0 -16px;
+    overflow-x: hidden;
+    
+    &-background {
+        position: absolute;
+        width: 110%;
+        height: 75%;
+        background: linear-gradient(to bottom, var(--primary-color) -100%, transparent 110%);
+        top: 0;
+        border-bottom-left-radius: calc(100% / 2);
+        border-bottom-right-radius: calc(100% / 2);
+    }
+
+    &-name {
+        font-family: 'DuneRise';
+    }
+}
+
 .file-portals-last-domains {
     height: 250px;
 }
 
 .file-portals-downloads {
-    height: calc(100% - 250px);
+    height: 250px;
 }

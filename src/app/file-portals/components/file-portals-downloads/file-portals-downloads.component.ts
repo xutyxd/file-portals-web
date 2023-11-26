@@ -1,35 +1,24 @@
-import { Component, WritableSignal, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { UserStorageService } from '../../../shared/providers/user-storage.service';
-import { FileSystemService } from '../../services/file-system.service';
-import { ITransfer } from '../../interfaces/transfer.interface';
-import { FilePortalsTransferComponent } from '../file-portals-transfer/file-portals-transfer.component';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+
 import { FpTitleComponent } from '../../../ui/components/molecules/fp-title/fp-title.component';
 
+import { FilePortalsDownloadsStatsComponent } from "../file-portals-downloads-stats/file-portals-downloads-stats.component";
+
 @Component({
-  selector: 'app-file-portals-downloads',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FpTitleComponent,
-    FilePortalsTransferComponent
-  ],
-  templateUrl: './file-portals-downloads.component.html',
-  styleUrl: './file-portals-downloads.component.scss'
+    selector: 'app-file-portals-downloads',
+    standalone: true,
+    templateUrl: './file-portals-downloads.component.html',
+    styleUrl: './file-portals-downloads.component.scss',
+    imports: [
+        RouterLink,
+        MatIconModule,
+        FpTitleComponent,
+        FilePortalsDownloadsStatsComponent
+    ]
 })
 export class FilePortalsDownloadsComponent {
 
-    public downloads: WritableSignal<ITransfer[]>;
-
-    constructor(userStorageService: UserStorageService,
-                fileSystemService: FileSystemService) {
-        const downloads = userStorageService.get<ITransfer[]>('downloads') || [];
-
-        this.downloads = signal<ITransfer[]>((downloads as ITransfer[]).sort((a, b) => b.started - a.started));
-
-        fileSystemService.on.download.subscribe((download) => {
-            this.downloads.update((downloads) => [...downloads, download].sort((a, b) => b.started - a.started));
-        });
-    }
 }
 
