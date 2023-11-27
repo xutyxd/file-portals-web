@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FilePortalsService } from 'src/app/file-portals/services/file-portals.service';
+import { FilePortalsService } from '../../../file-portals/services/file-portals.service';
 
 @Component({
   selector: 'app-layout-footer',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
     MatButtonModule,
   ],
