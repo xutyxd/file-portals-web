@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { DialogHeaderComponent } from '../dialog-header/dialog-header.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-dialog-boolean',
@@ -11,6 +12,7 @@ import { DialogHeaderComponent } from '../dialog-header/dialog-header.component'
     CommonModule,
     MatDialogModule,
     MatDividerModule,
+    MatButtonModule,
     DialogHeaderComponent
   ],
   templateUrl: './dialog-boolean.component.html',
